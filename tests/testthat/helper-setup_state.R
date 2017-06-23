@@ -1,5 +1,5 @@
 setup_state <- function(stu_code, sol_code, PEC = "", output = "") {
-  if (is.character(output)) output <- list(type = "output", payload = output)
+  if (is.character(output)) output <- list(list(type = "output", payload = output))
 
   tw <<- testwhat:::tw
 
