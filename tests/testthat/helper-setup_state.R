@@ -6,10 +6,10 @@ setup_state <- function(stu_code, sol_code, PEC = "", output = "") {
   sol_env <- new.env()
   stu_env <- new.env()
 
-  evaluate::evaluate(PEC,      envir=sol_env)
-  evaluate::evaluate(sol_code, envir=sol_env)
-  evaluate::evaluate(PEC,      envir=stu_env)
-  evaluate::evaluate(stu_code, envir=stu_env)
+  eval(parse(text = PEC),      envir=sol_env)
+  eval(parse(text = sol_code), envir=sol_env)
+  eval(parse(text = PEC),      envir=stu_env)
+  eval(parse(text = stu_code), envir=stu_env)
 
   tw$clear()
 
