@@ -2,7 +2,7 @@ context("Examples")
 
 test_that("state is setup correctly", {
   state <- setup_state("x <- 1", "x <- 1", output = "a b c")
-  state %>% check_output("a b c")
+  state %>% testwhat::check_output("a b c")
 })
 
 test_that("check_object2 passes", {
