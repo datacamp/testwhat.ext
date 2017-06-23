@@ -18,6 +18,7 @@ check_object2 <- function(state, names) {
 #' @param state state to start from
 #' @param name passed to check_function
 #' @param index passed to check_function
+#' @param args an array of argument names, passed to check_args, then check_equal.
 #' @importFrom testwhat check_function check_arg check_equal %>%
 #'
 #' @export

@@ -12,6 +12,8 @@ check_function2(state, name, index, args)
 \item{name}{passed to check_function}
 
 \item{index}{passed to check_function}
+
+\item{args}{an array of argument names, passed to check_args, then check_equal.}
 }
 \description{
 Example high-level SCT for checking a function
