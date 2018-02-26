@@ -8,7 +8,7 @@
 #' @return A list of lists. Each top level element corresponds to a roxygen
 #' block. Each second level element corresponds to a roxygen tag within that
 #' block.
-#' @importFrom magrittr %>%
+#' @importFrom testwhat %>%
 #' @importFrom roxygen2 roclet_tags roclet_find tag_value
 #' @importFrom stats setNames
 #' @noRd

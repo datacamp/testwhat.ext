@@ -8,7 +8,6 @@ Description: This package contains functions that build off of the core
     building blocks in testwhat. Often, these will be multiple simple
     SCTs combined.
 Imports: 
-    magrittr (>= 1.5),
     roxygen2 (>= 6.0.1),
     stats,
     testwhat (>= 4.3.1),
