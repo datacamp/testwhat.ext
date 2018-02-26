@@ -12,7 +12,7 @@ test_that(
     lst$DC_SCT <- "ex() %>% parse_desc() %>% check_has_desc_element('Package')"
     lst$DC_CODE <- BASE_DESC_LINES
     output <- test_it(lst)
-    passes(output)    
+    passes(output)
   }
 )
 
@@ -23,7 +23,7 @@ test_that(
     lst$DC_SCT <- "ex() %>% parse_desc() %>% check_has_desc_element('PACKAGE')"
     lst$DC_CODE <- BASE_DESC_LINES
     output <- test_it(lst)
-    fails(output)    
+    fails(output)
   }
 )
 
@@ -38,7 +38,7 @@ test_that(
     lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_element_matches('License', '^Part of R \\d.\\d.\\d$')"
     lst$DC_CODE <- BASE_DESC_LINES
     output <- test_it(lst)
-    passes(output)    
+    passes(output)
   }
 )
 
@@ -49,7 +49,7 @@ test_that(
     lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_element_matches('Title', 'The R Base Package', fixed = TRUE)"
     lst$DC_CODE <- BASE_DESC_LINES
     output <- test_it(lst)
-    passes(output)    
+    passes(output)
   }
 )
 
@@ -60,7 +60,7 @@ test_that(
     lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_element_matches('PACKAGE', 'base', fixed = TRUE)"
     lst$DC_CODE <- BASE_DESC_LINES
     output <- test_it(lst)
-    fails(output)    
+    fails(output)
   }
 )
 
@@ -71,7 +71,7 @@ test_that(
     lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_element_matches('Description', 'Army bases, bass fishing, and bass drums', fixed = TRUE)"
     lst$DC_CODE <- BASE_DESC_LINES
     output <- test_it(lst)
-    fails(output)    
+    fails(output)
   }
 )
 
@@ -87,7 +87,7 @@ test_that(
     lst$DC_SCT <- "ex() %>% parse_desc() %>% check_has_desc_version(as.package_version(R.Version()))"
     lst$DC_CODE <- BASE_DESC_LINES
     output <- test_it(lst)
-    passes(output)    
+    passes(output)
   }
 )
 
@@ -98,7 +98,7 @@ test_that(
     lst$DC_SCT <- "ex() %>% parse_desc() %>% check_has_desc_version(as.package_version(R.Version()))"
     lst$DC_CODE <- BASE_DESC_LINES[!grepl("^Version", BASE_DESC_LINES)]
     output <- test_it(lst)
-    fails(output)    
+    fails(output)
   }
 )
 
@@ -109,7 +109,7 @@ test_that(
     lst$DC_SCT <- "ex() %>% parse_desc() %>% check_has_desc_version(as.package_version('0.0-1'))"
     lst$DC_CODE <- BASE_DESC_LINES
     output <- test_it(lst)
-    fails(output)    
+    fails(output)
   }
 )
 
@@ -125,7 +125,7 @@ test_that(
     lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_date())"
     lst$DC_CODE <- c(BASE_DESC_LINES, paste("Date:", Sys.Date()))
     output <- test_it(lst)
-    passes(output)    
+    passes(output)
   }
 )
 
@@ -136,7 +136,7 @@ test_that(
     lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_date()"
     lst$DC_CODE <- BASE_DESC_LINES
     output <- test_it(lst)
-    fails(output)    
+    fails(output)
   }
 )
 
@@ -148,7 +148,7 @@ test_that(
     lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_date()"
     lst$DC_CODE <- c(BASE_DESC_LINES, paste("Date:", as.Date("1915-06-16")))
     output <- test_it(lst)
-    fails(output)    
+    fails(output)
   }
 )
 
@@ -162,11 +162,11 @@ test_that(
     # Solution code not considered
     lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_authors_at_r(as.person('R Core Team <R-core@r-project.org> [aut, cre]')))"
     lst$DC_CODE <- c(
-      BASE_DESC_LINES, 
+      BASE_DESC_LINES,
       paste("Authors@R:", as.person("R Core Team <R-core@r-project.org> [aut, cre]"))
     )
     output <- test_it(lst)
-    passes(output)    
+    passes(output)
   }
 )
 
@@ -177,7 +177,7 @@ test_that(
     lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_authors_at_r(utils::as.person('R Core Team <R-core@r-project.org> [aut, cre]'))"
     lst$DC_CODE <- BASE_DESC_LINES
     output <- test_it(lst)
-    fails(output)    
+    fails(output)
   }
 )
 
@@ -188,7 +188,7 @@ test_that(
     lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_authors_at_r(utils::as.person('R Core Team <R-core@r-project.org> [aut, cre]'))"
     lst$DC_CODE <- c(BASE_DESC_LINES, paste("Authors@R:", as.person('Richie Cotton <richie@datacamp.com> [aut, cre]')))
     output <- test_it(lst)
-    fails(output)    
+    fails(output)
   }
 )
 

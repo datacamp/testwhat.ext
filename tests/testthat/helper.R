@@ -6,8 +6,8 @@ if (!requireNamespace("rjson", quietly = TRUE)) {
   stop("rjson is needed to run the tests. Please install it.", call. = FALSE)
 }
 
-test_it <- function(lst) {
-  if (is.null(lst$DC_TYPE)) lst$DC_TYPE <- "NormalExercise"
+test_it <- function(lst, ex_type = "NormalExercise") {
+  if (is.null(lst$DC_TYPE)) lst$DC_TYPE <- ex_type
   if (is.null(lst$DC_PEC)) lst$DC_PEC <- ""
   if (is.null(lst$DC_SOLUTION)) lst$DC_SOLUTION <- ""
   if (is.null(lst$DC_SCT)) lst$DC_SCT <- ""

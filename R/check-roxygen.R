@@ -187,6 +187,7 @@ check_roxy_examples_run <- function(state, index = 1L, not_runnable_msg = NULL, 
   check_has_roxy_element(state, "examples", index)
 
   student_pd <- state$get("student_pd")
+  student_env <- state$get("student_env")
 
   if(is.null(not_runnable_msg)) {
     not_runnable_msg <- sprintf(
@@ -196,7 +197,7 @@ check_roxy_examples_run <- function(state, index = 1L, not_runnable_msg = NULL, 
   }
   actual <- student_pd[[index]][["examples"]]
   is_runnable <- tryCatch(
-    {eval(parse(text = actual)); TRUE},
+    {eval_parse(actual, student_env); TRUE},
     error = function(e) FALSE
   )
   check_that(is_true(is_runnable), feedback = not_runnable_msg)
@@ -212,6 +213,9 @@ check_roxy_examples_result_equals <- function(state, index = 1L, incorrect_msg =
   student_pd <- state$get("student_pd")
   solution_pd <- state$get("solution_pd")
 
+  student_env <- state$get("student_env")
+  solution_env <- state$get("solution_env")
+
   if(is.null(incorrect_msg)) {
     incorrect_msg <- sprintf(
       "The result of running examples in roxygen block '%s' is not correct.",
@@ -220,9 +224,9 @@ check_roxy_examples_result_equals <- function(state, index = 1L, incorrect_msg =
   }
 
   set.seed(19790801)
-  actual <- eval(parse(text = student_pd[[index]][["examples"]]))
+  actual <- eval_parse(student_pd[[index]][["examples"]], student_env)
   set.seed(19790801)
-  expected <- eval(parse(text = solution_pd[[index]][["examples"]]))
+  expected <- eval_parse(solution_pd[[index]][["examples"]], solution_env)
 
   check_that(is_equal(actual, expected), feedback = incorrect_msg)
 }
@@ -243,4 +247,14 @@ check_roxy_example_matches <- function(state, regex, fixed = FALSE, index = 1L, 
   actual <- student_pd[[index]][["examples"]]
   num_hits <- testwhat:::get_num_hits(regex = regex, x = actual, fixed = fixed)
   check_that(is_gte(num_hits, 1L), feedback = not_typed_msg)
+}
+
+#' Parse code lines & evaluate
+#'
+#' Parse lines of R code and evaluate it.
+#' @param code_lines A character vector of R code.
+#' @param env An environment to evaluate the code in.
+#' @noRd
+eval_parse <- function(code_lines, envir) {
+  eval(parse(text = code_lines), envir = envir)
 }

@@ -1,3 +1,6 @@
+# Use internal fn without :::
+eval_parse <- testwhat.ext:::eval_parse
+
 #' Setup exercise state
 #'
 #' Sets up the exercise state from student, solution, and pre-exercise code.
@@ -10,7 +13,7 @@
 #' \code{testwhat:::tw}, to this state, and the reporter to a new
 #' \code{DC_reporter}.
 #' @noRd
-setup_state <- function(stu_code, sol_code, pre_ex_code = "", output = "") {
+setup_state <- function(stu_code, sol_code = "", pre_ex_code = "", output = "") {
   if (is.character(output)) {
     output <- list(list(type = "output", payload = output))
   }
@@ -44,16 +47,6 @@ setup_state <- function(stu_code, sol_code, pre_ex_code = "", output = "") {
   tw$set(state = state, reporter = rep, stack = TRUE)
 
   state
-}
-
-#' Parse code lines & evaluate
-#'
-#' Parse lines of R code and evaluate it.
-#' @param code_lines A character vector of R code.
-#' @param env An environment to evaluate the code in.
-#' @noRd
-eval_parse <- function(code_lines, envir) {
-  eval(parse(text = code_lines), envir = envir)
 }
 
 #' Create a new environment
