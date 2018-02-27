@@ -7,23 +7,21 @@ context("check_has_desc_element")
 
 test_that(
   "test check_has_desc_element() passes on a DESCRIPTION with the required field", {
-    lst <- list()
-    # Solution code not considered
-    lst$DC_SCT <- "ex() %>% parse_desc() %>% check_has_desc_element('Package')"
-    lst$DC_CODE <- BASE_DESC_LINES
-    output <- test_it(lst)
-    passes(output)
+    state <- setup_state(stu_code = BASE_DESC_LINES, ex_type = "FileExercise")
+    state %>%
+      parse_desc() %>%
+      check_has_desc_element('Package')
   }
 )
 
 test_that(
   "test check_has_desc_element() fails on a DESCRIPTION without the required field", {
-    lst <- list()
-    # Solution code not considered
-    lst$DC_SCT <- "ex() %>% parse_desc() %>% check_has_desc_element('PACKAGE')"
-    lst$DC_CODE <- BASE_DESC_LINES
-    output <- test_it(lst)
-    fails(output)
+    state <- setup_state(stu_code = BASE_DESC_LINES, ex_type = "FileExercise")
+    expect_error(
+      state %>%
+        parse_desc() %>%
+        check_has_desc_element('PACKAGE')
+    )
   }
 )
 
@@ -33,45 +31,41 @@ context("check_desc_element_matches")
 
 test_that(
   "test check_desc_element_matches() passes on a DESCRIPTION with a matching field", {
-    lst <- list()
-    # Solution code not considered
-    lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_element_matches('License', '^Part of R \\d.\\d.\\d$')"
-    lst$DC_CODE <- BASE_DESC_LINES
-    output <- test_it(lst)
-    passes(output)
+    state <- setup_state(stu_code = BASE_DESC_LINES, ex_type = "FileExercise")
+    state %>%
+      parse_desc() %>%
+      check_desc_element_matches('License', '^Part of R \\d.\\d.\\d$')
   }
 )
 
 test_that(
   "test check_desc_element_matches() passes on a DESCRIPTION with a fixed-matching field", {
-    lst <- list()
-    # Solution code not considered
-    lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_element_matches('Title', 'The R Base Package', fixed = TRUE)"
-    lst$DC_CODE <- BASE_DESC_LINES
-    output <- test_it(lst)
-    passes(output)
+    state <- setup_state(stu_code = BASE_DESC_LINES, ex_type = "FileExercise")
+    state %>%
+      parse_desc() %>%
+      check_desc_element_matches('Title', 'The R Base Package', fixed = TRUE)
   }
 )
 
 test_that(
   "test check_desc_element_matches() fails on a DESCRIPTION without the required field", {
-    lst <- list()
-    # Solution code not considered
-    lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_element_matches('PACKAGE', 'base', fixed = TRUE)"
-    lst$DC_CODE <- BASE_DESC_LINES
-    output <- test_it(lst)
-    fails(output)
+    state <- setup_state(stu_code = BASE_DESC_LINES, ex_type = "FileExercise")
+    expect_error(
+      state %>%
+        parse_desc() %>%
+        check_desc_element_matches('PACKAGE')
+    )
   }
 )
 
 test_that(
   "test check_desc_element_matches() fails on a DESCRIPTION with a non-matching field", {
-    lst <- list()
-    # Solution code not considered
-    lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_element_matches('Description', 'Army bases, bass fishing, and bass drums', fixed = TRUE)"
-    lst$DC_CODE <- BASE_DESC_LINES
-    output <- test_it(lst)
-    fails(output)
+    state <- setup_state(stu_code = BASE_DESC_LINES, ex_type = "FileExercise")
+    expect_error(
+      state %>%
+        parse_desc() %>%
+        check_desc_element_matches('Description', 'Army bases, bass fishing, and bass drums', fixed = TRUE)
+    )
   }
 )
 
@@ -81,35 +75,41 @@ context("check_desc_version")
 
 test_that(
   "test check_desc_version() passes on a DESCRIPTION with a correct Version field", {
-    lst <- list()
-    # Solution code not considered
-    # Version of base pkg is same as version of R
-    lst$DC_SCT <- "ex() %>% parse_desc() %>% check_has_desc_version(as.package_version(R.Version()))"
-    lst$DC_CODE <- BASE_DESC_LINES
-    output <- test_it(lst)
-    passes(output)
+    state <- setup_state(stu_code = BASE_DESC_LINES, ex_type = "FileExercise")
+    r_version <- as.package_version(R.Version())
+    state %>%
+      parse_desc() %>%
+      check_desc_version(r_version)
   }
 )
 
 test_that(
-  "test check_has_desc_version() fails on a DESCRIPTION without the Version field", {
-    lst <- list()
-    # Solution code not considered
-    lst$DC_SCT <- "ex() %>% parse_desc() %>% check_has_desc_version(as.package_version(R.Version()))"
-    lst$DC_CODE <- BASE_DESC_LINES[!grepl("^Version", BASE_DESC_LINES)]
-    output <- test_it(lst)
-    fails(output)
+  "test check_desc_version() fails on a DESCRIPTION without the Version field", {
+    state <- setup_state(
+      stu_code = BASE_DESC_LINES[!grepl("^Version", BASE_DESC_LINES)],
+      ex_type = "FileExercise"
+    )
+    r_version <- as.package_version(R.Version())
+    expect_error(
+      state %>%
+        parse_desc() %>%
+        check_desc_version(r_version)
+    )
   }
 )
 
 test_that(
   "test check_has_desc_version() fails on a DESCRIPTION with an incorrect Version field", {
-    lst <- list()
-    # Solution code not considered
-    lst$DC_SCT <- "ex() %>% parse_desc() %>% check_has_desc_version(as.package_version('0.0-1'))"
-    lst$DC_CODE <- BASE_DESC_LINES
-    output <- test_it(lst)
-    fails(output)
+    state <- setup_state(
+      stu_code = BASE_DESC_LINES[!grepl("^Version", BASE_DESC_LINES)],
+      ex_type = "FileExercise"
+    )
+    bad_version <- as.package_version('0.0-1')
+    expect_error(
+      state %>%
+        parse_desc() %>%
+        check_desc_version(bad_version)
+    )
   }
 )
 
@@ -119,36 +119,38 @@ context("check_desc_date")
 
 test_that(
   "test check_desc_date() passes on a DESCRIPTION with a correct Date field", {
-    lst <- list()
-    # Solution code not considered
-    # Default Date is today
-    lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_date())"
-    lst$DC_CODE <- c(BASE_DESC_LINES, paste("Date:", Sys.Date()))
-    output <- test_it(lst)
-    passes(output)
+    state <- setup_state(
+      stu_code = c(BASE_DESC_LINES, paste("Date:", Sys.Date())),
+      ex_type = "FileExercise"
+    )
+    state %>%
+      parse_desc() %>%
+      check_desc_date()
   }
 )
 
 test_that(
   "test check_desc_date() fails on a DESCRIPTION without the Date field", {
-    lst <- list()
-    # Solution code not considered
-    lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_date()"
-    lst$DC_CODE <- BASE_DESC_LINES
-    output <- test_it(lst)
-    fails(output)
+    state <- setup_state(stu_code = BASE_DESC_LINES, ex_type = "FileExercise")
+    expect_error(
+      state %>%
+        parse_desc() %>%
+        check_desc_date()
+    )
   }
 )
 
 test_that(
   "test check_desc_date() fails on a DESCRIPTION with an incorrect Date field", {
-    lst <- list()
-    # Solution code not considered
-    # Default Date is today
-    lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_date()"
-    lst$DC_CODE <- c(BASE_DESC_LINES, paste("Date:", as.Date("1915-06-16")))
-    output <- test_it(lst)
-    fails(output)
+    state <- setup_state(
+      stu_code = c(BASE_DESC_LINES, "Date: 1915-06-16"),
+      ex_type = "FileExercise"
+    )
+    expect_error(
+      state %>%
+        parse_desc() %>%
+        check_desc_date()
+    )
   }
 )
 
@@ -158,38 +160,49 @@ context("check_desc_authors_at_r")
 
 test_that(
   "test check_desc_authors_at_r() passes on a DESCRIPTION with a correct Authors@R field", {
-    lst <- list()
-    # Solution code not considered
-    lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_authors_at_r(as.person('R Core Team <R-core@r-project.org> [aut, cre]')))"
-    lst$DC_CODE <- c(
-      BASE_DESC_LINES,
-      paste("Authors@R:", as.person("R Core Team <R-core@r-project.org> [aut, cre]"))
+    state <- setup_state(
+      stu_code = c(
+        BASE_DESC_LINES,
+        "Authors@R: as.person('R Core Team <R-core@r-project.org> [aut, cre]')"
+      ),
+      ex_type = "FileExercise"
     )
-    output <- test_it(lst)
-    passes(output)
+    state %>%
+      parse_desc() %>%
+      check_desc_authors_at_r(
+        utils::as.person('R Core Team <R-core@r-project.org> [aut, cre]')
+      )
   }
 )
 
 test_that(
   "test check_desc_authors_at_r() fails on a DESCRIPTION without the Authors@R field", {
-    lst <- list()
-    # Solution code not considered
-    lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_authors_at_r(utils::as.person('R Core Team <R-core@r-project.org> [aut, cre]'))"
-    lst$DC_CODE <- BASE_DESC_LINES
-    output <- test_it(lst)
-    fails(output)
+    state <- setup_state(stu_code = BASE_DESC_LINES, ex_type = "FileExercise")
+    expect_error(
+      state %>%
+        parse_desc() %>%
+        check_desc_authors_at_r(
+          utils::as.person('R Core Team <R-core@r-project.org> [aut, cre]')
+        )
+    )
   }
 )
 
 test_that(
   "test check_desc_authors_at_r() fails on a DESCRIPTION with an incorrect Authors@R field", {
-    lst <- list()
-    # Solution code not considered
-    lst$DC_SCT <- "ex() %>% parse_desc() %>% check_desc_authors_at_r(utils::as.person('R Core Team <R-core@r-project.org> [aut, cre]'))"
-    lst$DC_CODE <- c(BASE_DESC_LINES, paste("Authors@R:", as.person('Richie Cotton <richie@datacamp.com> [aut, cre]')))
-    output <- test_it(lst)
-    fails(output)
+    state <- setup_state(
+      stu_code = c(
+        BASE_DESC_LINES,
+        "Authors@R: as.person('Richie Cotton <richie@datacamp.com> [aut, cre])'"
+      ),
+      ex_type = "FileExercise"
+    )
+    expect_error(
+      state %>%
+        parse_desc() %>%
+        check_desc_authors_at_r(
+          utils::as.person('R Core Team <R-core@r-project.org> [aut, cre]')
+        )
+    )
   }
 )
-
-

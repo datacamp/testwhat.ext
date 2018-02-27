@@ -13,30 +13,34 @@ eval_parse <- testwhat.ext:::eval_parse
 #' \code{testwhat:::tw}, to this state, and the reporter to a new
 #' \code{DC_reporter}.
 #' @noRd
-setup_state <- function(stu_code, sol_code = "", pre_ex_code = "", output = "") {
+setup_state <- function(stu_code, sol_code = "", pre_ex_code = "", output = "",
+  ex_type = c("NormalExercise", "FileExercise")) {
   if (is.character(output)) {
     output <- list(list(type = "output", payload = output))
   }
+  ex_type <- match.arg(ex_type)
 
   tw <<- testwhat:::tw
 
   sol_env <- new_env()
   stu_env <- new_env()
 
-  eval_parse(pre_ex_code, sol_env)
-  eval_parse(sol_code, sol_env)
-  eval_parse(pre_ex_code, stu_env)
-  eval_parse(stu_code, stu_env)
+  if(ex_type == "NormalExercise") {
+    eval_parse(pre_ex_code, sol_env)
+    eval_parse(sol_code, sol_env)
+    eval_parse(pre_ex_code, stu_env)
+    eval_parse(stu_code, stu_env)
+  }
 
   tw$clear()
 
   state <- testwhat:::RootState$new(
     pec           = pre_ex_code,
     student_code  = stu_code,
-    student_pd    = testwhat:::build_pd(stu_code),
+    student_pd    = if(ex_type == "NormalExercise") testwhat:::build_pd(stu_code),
     student_env   = stu_env,
     solution_code = sol_code,
-    solution_pd   = testwhat:::build_pd(sol_code),
+    solution_pd   = if(ex_type == "NormalExercise") testwhat:::build_pd(sol_code),
     solution_env  = sol_env,
     output_list   = output,
     test_env      = new_env()

@@ -108,7 +108,7 @@ check_desc_version <- function(state, expected, bad_format_msg = NULL, incorrect
 
   actual <- student_pd[["Version"]]
   is_num_ver <- tryCatch(
-    {as.package_version(); TRUE},
+    {as.package_version(actual); TRUE},
     error = function(e) FALSE
   )
   check_that(is_true(is_num_ver), feedback = bad_format_msg)
@@ -122,7 +122,7 @@ check_desc_version <- function(state, expected, bad_format_msg = NULL, incorrect
 #' @importFrom testwhat is_true
 #' @export
 check_desc_date <- function(state, expected = Sys.Date(), bad_format_msg = NULL, incorrect_msg = NULL, append = TRUE) {
-  check_has_desc_element(state, "Version")
+  check_has_desc_element(state, "Date")
 
   student_pd <- state$get("student_pd")
 
@@ -138,7 +138,7 @@ check_desc_date <- function(state, expected = Sys.Date(), bad_format_msg = NULL,
       "The 'Date' element of the DESCRIPTION does not have not the correct value."
   }
 
-  actual <- student_pd[["Version"]]
+  actual <- student_pd[["Date"]]
   is_date <- tryCatch(
     {as.Date(actual); TRUE},
     error = function(e) FALSE
@@ -155,9 +155,10 @@ check_desc_date <- function(state, expected = Sys.Date(), bad_format_msg = NULL,
 #' @importFrom utils as.person
 #' @export
 check_desc_authors_at_r <- function(state, expected, bad_format_msg = NULL, incorrect_msg = NULL, append = TRUE) {
-  check_has_desc_element(state, "Version")
+  check_has_desc_element(state, "Authors@R")
 
   student_pd <- state$get("student_pd")
+  student_env <- state$get("student_env")
 
   expected <- as.person(expected)
 
@@ -174,13 +175,13 @@ check_desc_authors_at_r <- function(state, expected, bad_format_msg = NULL, inco
   actual <- student_pd[["Authors@R"]]
   is_person <- tryCatch(
     {
-      authors <- eval(parse(text = actual))
+      authors <- eval_parse(actual, student_env)
       inherits(authors, "person")
     },
     error = function(e) FALSE
   )
   check_that(is_true(is_person), feedback = bad_format_msg)
 
-  actual <- eval(parse(text = actual))
-  check_that(is_equal(actual, expected), feedback = incorrect_msg)
+  authors <- eval_parse(actual, student_env)
+  check_that(is_equal(authors, expected), feedback = incorrect_msg)
 }

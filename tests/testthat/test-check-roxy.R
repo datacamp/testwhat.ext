@@ -273,12 +273,6 @@ test_that(
 
 test_that(
   "test check_roxy_param_matches() fails on a function with a mismatched roxygen element", {
-    # lst <- list()
-    # # Solution code not considered
-    # lst$DC_SCT <- "ex() %>% parse_roxy() %>% check_roxy_param_matches('x', 'character vector', fixed = TRUE)"
-    # lst$DC_CODE <- FN_WITH_ROXY
-    # output <- test_it(lst)
-    # fails(output)
     # Solution code not considered
     state <- setup_state(stu_code = FN_WITH_ROXY)
     expect_error(
@@ -317,12 +311,6 @@ test_that(
 
 test_that(
   "test check_roxy_examples_run() fails on a function with non-runnable roxygen examples", {
-    # lst <- list()
-    # # Solution code not considered
-    # lst$DC_SCT <- "ex() %>% parse_roxy() %>% check_roxy_examples_run()"
-    # lst$DC_CODE <- ANOTHER_FN_WITH_ROXY
-    # output <- test_it(lst)
-    # fails(output)
     # Solution code not considered
     state <- setup_state(stu_code = ANOTHER_FN_WITH_ROXY)
     expect_error(
@@ -366,12 +354,6 @@ context("check_roxy_example_matches")
 
 test_that(
   "test check_roxy_example_matches() passes on a function with matching roxygen example", {
-    # lst <- list()
-    # # Solution code not considered
-    # lst$DC_SCT <- "ex() %>% parse_roxy() %>% check_roxy_example_matches('geomean\\\\(.*\\\\)')"
-    # lst$DC_CODE <- FN_WITH_ROXY
-    # output <- test_it(lst)
-    # passes(output)
     # Solution code not considered
     state <- setup_state(stu_code = FN_WITH_ROXY)
     state %>%
@@ -382,13 +364,6 @@ test_that(
 
 test_that(
   "test check_roxy_example_matches() passes on a function with a fixed-matching roxygen element", {
-    # lst <- list()
-    # # Solution code not considered
-    # lst$DC_SCT <- "ex() %>% parse_roxy() %>% check_roxy_example_matches('geomean(', fixed = TRUE)"
-    # lst$DC_CODE <- FN_WITH_ROXY
-    # output <- test_it(lst)
-    # passes(output)
-    # Solution code not considered
     # Solution code not considered
     state <- setup_state(stu_code = FN_WITH_ROXY)
     state %>%
@@ -399,12 +374,6 @@ test_that(
 
 test_that(
   "test check_roxy_example_matches() fails on a function without roxygen examples", {
-    # lst <- list()
-    # # Solution code not considered
-    # lst$DC_SCT <- "ex() %>% parse_roxy() %>% check_roxy_example_matches('geomean(', fixed = TRUE)"
-    # lst$DC_CODE <- YET_ANOTHER_FN_WITH_ROXY
-    # output <- test_it(lst)
-    # fails(output)
     # Solution code not considered
     state <- setup_state(stu_code = YET_ANOTHER_FN_WITH_ROXY)
     expect_error(
@@ -417,12 +386,6 @@ test_that(
 
 test_that(
   "test check_roxy_example_matches() fails on a function with a mismatched roxygen element", {
-    # lst <- list()
-    # # Solution code not considered
-    # lst$DC_SCT <- "ex() %>% parse_roxy() %>% check_roxy_example_matches('geomean(', fixed = TRUE)"
-    # lst$DC_CODE <- ANOTHER_FN_WITH_ROXY
-    # output <- test_it(lst)
-    # fails(output)
     state <- setup_state(stu_code = ANOTHER_FN_WITH_ROXY)
     expect_error(
       state %>%

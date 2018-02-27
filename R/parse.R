@@ -137,10 +137,6 @@ parse_desc <- function(state) {
     student_pd = extract_description_from_code(childState$get("student_code")),
     solution_pd = extract_description_from_code(childState$get("solution_code"))
   )
-  childState$set(
-    student_pd = NULL,
-    solution_pd = NULL
-  )
   childState
 }
 
