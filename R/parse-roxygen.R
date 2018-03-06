@@ -22,8 +22,8 @@ extract_roxygen_from_code <- function(lines) {
 
   # registry setup inferred from body of roxygenize()
   registry <- c(
-    roxygen2::roclet_tags(roxygen2::roclet_find("rd")),
-    roxygen2::roclet_tags(roxygen2::roclet_find("namespace")),
+    roxygen2::roclet_tags(roxygen2::roclet_find("rd_roclet")),
+    roxygen2::roclet_tags(roxygen2::roclet_find("namespace_roclet")),
     include = roxygen2::tag_value
   )
 
