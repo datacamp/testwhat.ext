@@ -246,6 +246,7 @@ check_roxy_imports_object_from_package <- function(state, pkg_name, object_name,
 check_roxy_examples_run <- function(state, index = 1L, not_runnable_msg = NULL, append = TRUE) {
   check_has_roxy_element(state, "examples", index)
 
+  pre_ex_code <- state$get("pec")
   student_pd <- state$get("student_pd")
   student_env <- state$get("student_env")
 
@@ -256,8 +257,11 @@ check_roxy_examples_run <- function(state, index = 1L, not_runnable_msg = NULL, 
     )
   }
   actual <- student_pd[[index]][["examples"]]
-  is_runnable <- tryCatch(
-    {eval_parse(actual, student_env); TRUE},
+  is_runnable <- tryCatch({
+      eval_parse(pre_ex_code, student_env)
+      eval_parse(actual, student_env)
+      TRUE
+    },
     error = function(e) FALSE
   )
   check_that(is_true(is_runnable), feedback = not_runnable_msg)
