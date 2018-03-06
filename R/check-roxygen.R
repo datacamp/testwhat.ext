@@ -12,6 +12,8 @@
 #' @param times Positive integer. Denotes the number of times the string in
 #' \code{regex} should be matched.
 #' @param param_name String naming a parameter for the function.
+#' @param pkg_name String naming an R package to import from.
+#' @param object_name String naming an object to import from another package.
 #' @param missing_msg Optional string. Used to override the feedback message
 #' in the event of failure.
 #' @param incorrect_msg Optional string. Used to override the feedback message
@@ -182,6 +184,64 @@ check_roxy_param_matches <- function(state, param_name, regex, fixed = FALSE, in
 
 #' @rdname check_has_roxy
 #' @importFrom testwhat check_that is_true
+#' @export
+check_roxy_imports_package <- function(state, pkg_name, index = 1L, missing_msg = NULL, append = TRUE) {
+  check_has_roxy_element(state, "import", index)
+
+  student_pd <- state$get("student_pd")
+
+  if(is.null(missing_msg)) {
+    missing_msg <- sprintf(
+      "In roxygen block '%s', package '%s' was not imported.",
+      index, pkg_name
+    )
+  }
+
+  pkgs_imported <- student_pd[[index]][["import"]]
+  check_that(is_true(pkg_name %in% pkgs_imported), feedback = missing_msg)
+}
+
+#' @rdname check_has_roxy
+#' @importFrom testwhat check_that
+#' @importFrom testwhat is_false
+#' @export
+check_roxy_imports_from_package <- function(state, pkg_name, index = 1L, missing_msg = NULL, append = TRUE) {
+  check_has_roxy_element(state, "importFrom", index)
+
+  student_pd <- state$get("student_pd")
+
+  if(is.null(missing_msg)) {
+    missing_msg <- sprintf(
+      "In roxygen block '%s', nothing was imported from package '%s'.",
+      index, pkg_name
+    )
+  }
+  pkg_to_import_from <- student_pd[[index]][["importFrom"]][[pkg_name]]
+  check_that(is_false(is.null(pkg_to_import_from)), feedback = missing_msg)
+}
+
+#' @rdname check_has_roxy
+#' @importFrom testwhat check_that
+#' @importFrom testwhat is_true
+#' @export
+check_roxy_imports_object_from_package <- function(state, pkg_name, object_name, index = 1L, missing_msg = NULL, append = TRUE) {
+  check_roxy_imports_from_package(state, pkg_name, index)
+
+  student_pd <- state$get("student_pd")
+
+  if(is.null(missing_msg)) {
+    missing_msg <- sprintf(
+      "In roxygen block '%s', '%s' was not imported from '%s'.",
+      index, object_name, pkg_name
+    )
+  }
+  imported_objects <- student_pd[[index]][["importFrom"]][[pkg_name]]
+  check_that(is_true(object_name %in% imported_objects), feedback = missing_msg)
+}
+
+#' @rdname check_has_roxy
+#' @importFrom testwhat check_that
+#' @importFrom testwhat is_true
 #' @export
 check_roxy_examples_run <- function(state, index = 1L, not_runnable_msg = NULL, append = TRUE) {
   check_has_roxy_element(state, "examples", index)

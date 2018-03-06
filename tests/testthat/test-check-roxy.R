@@ -46,6 +46,35 @@ harmmean <- function(x, na.rm = FALSE) {
   1 / mean(1 / x, na.rm = na.rm)
 }"
 
+FN_WITH_IMPORTS <- "#' Psychedelic dotplot
+#'
+#' Draw a dot plot with a psychedelic color scheme.
+#' @param data A data frame.
+#' @param formula A formula to specify the variables on the x and y axes.
+#' @return An dotplot object of class \\code{trellis}.
+#' @details This demonstrates using @importFrom and @import.
+#' It imports all of the tidyverse just for the sheer horror.
+#' @importFrom grDevices hcl
+#' @importFrom lattice dotplot
+#' @importFrom lattice panel.fill panel.dotplot
+#' @import colorspace
+#' @import tidyverse
+#' @examples
+#' psychedelic_dot_plot(ChickWeight, Time ~ weight | Diet)
+#' @export
+psychedelic_dot_plot <- function(data, formula) {
+  dotplot(
+    formula,
+    data,
+    panel = function(x, y, ...) {
+      panel.fill(col = hcl(runif(1, 0, 360), 100, 100))
+      cols <- rainbow_hcl(length(x), c = 100, l = 75)
+      panel.dotplot(x, y, ..., col = cols)
+    }
+  )
+}
+"
+
 PACKAGE_DOCS <- "#' Base R 2
 #'
 #' Because all the best packages have a sequel.
@@ -312,6 +341,90 @@ test_that(
       state %>%
         parse_roxy() %>%
         check_roxy_param_matches('x', 'character vector', fixed = TRUE)
+    )
+  }
+)
+
+# check_roxy_imports_package ----------------------------------------------
+
+context("check_roxy_imports_package")
+
+test_that(
+  "test check_roxy_imports_package() passes on a function with that roxygen import", {
+    # Solution code not considered
+    state <- setup_state(stu_code = FN_WITH_IMPORTS)
+    state %>%
+      parse_roxy() %>%
+      check_roxy_imports_package('colorspace')
+  }
+)
+
+
+test_that(
+  "test check_roxy_imports_package() fails on a function without that roxygen import", {
+    # Solution code not considered
+    state <- setup_state(stu_code = FN_WITH_IMPORTS)
+    expect_error(
+      state %>%
+        parse_roxy() %>%
+        check_roxy_imports_package('lattice') # this is in @importFrom not @import
+    )
+  }
+)
+
+# check_roxy_imports_from_package -----------------------------------------
+
+context("check_roxy_imports_from_package")
+
+test_that(
+  "test check_roxy_imports_from_package() passes on a function with that roxygen importFrom", {
+    # Solution code not considered
+    state <- setup_state(stu_code = FN_WITH_IMPORTS)
+    state %>%
+      parse_roxy() %>%
+      check_roxy_imports_from_package('lattice')
+  }
+)
+
+test_that(
+  "test check_roxy_imports_from_package() fails on a function with that roxygen importFrom", {
+    # Solution code not considered
+    state <- setup_state(stu_code = FN_WITH_IMPORTS)
+    expect_error(
+      state %>%
+        parse_roxy() %>%
+        check_roxy_imports_from_package('colorspace') # this is in @import not @importFrom
+    )
+  }
+)
+
+
+# check_roxy_imports_object_from_package ----------------------------------------
+
+context("check_roxy_imports_object_from_package")
+
+test_that(
+  "test check_roxy_imports_object_from_package() passes on a function with that objected imported from the package", {
+    # Solution code not considered
+    state <- setup_state(stu_code = FN_WITH_IMPORTS)
+    state %>%
+      parse_roxy() %>% {
+        check_roxy_imports_object_from_package(., 'grDevices', 'hcl')
+        check_roxy_imports_object_from_package(., 'lattice', 'dotplot')
+        check_roxy_imports_object_from_package(., 'lattice', 'panel.fill')
+        check_roxy_imports_object_from_package(., 'lattice', 'panel.dotplot')
+      }
+  }
+)
+
+test_that(
+  "test check_roxy_imports_object_from_package() fails on a function without that objected imported from the package", {
+    # Solution code not considered
+    state <- setup_state(stu_code = FN_WITH_IMPORTS)
+    expect_error(
+      state %>%
+        parse_roxy() %>%
+        check_roxy_imports_object_from_package('lattice', 'xyplot')
     )
   }
 )
