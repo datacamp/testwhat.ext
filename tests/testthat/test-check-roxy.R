@@ -46,6 +46,13 @@ harmmean <- function(x, na.rm = FALSE) {
   1 / mean(1 / x, na.rm = na.rm)
 }"
 
+PACKAGE_DOCS <- "#' Base R 2
+#'
+#' Because all the best packages have a sequel.
+#' @docType package
+#' @name base2
+'_PACKAGE'" # The value here is special
+
 # check_has_roxy ----------------------------------------------------------
 
 context("check_has_roxy")
@@ -109,6 +116,16 @@ test_that(
         parse_roxy() %>%
         check_has_roxy_element('qwerty')
     )
+  }
+)
+
+test_that(
+  "test check_has_roxy_element() passes on package documentation", {
+    # Solution code not considered
+    state <- setup_state(stu_code = PACKAGE_DOCS)
+    state %>%
+      parse_roxy() %>%
+      check_has_roxy_element('docType')
   }
 )
 
