@@ -274,9 +274,9 @@ check_roxy_examples_run <- function(state, index = 1L, not_runnable_msg = NULL, 
 check_roxy_examples_result_equals <- function(state, index = 1L, incorrect_msg = NULL, append = TRUE) {
   check_roxy_examples_run(state, index)
 
+  pre_ex_code <- state$get("pec")
   student_pd <- state$get("student_pd")
   solution_pd <- state$get("solution_pd")
-
   student_env <- state$get("student_env")
   solution_env <- state$get("solution_env")
 
@@ -288,8 +288,10 @@ check_roxy_examples_result_equals <- function(state, index = 1L, incorrect_msg =
   }
 
   set.seed(19790801)
+  eval_parse(pre_ex_code, student_env)
   actual <- eval_parse(student_pd[[index]][["examples"]], student_env)
   set.seed(19790801)
+  eval_parse(pre_ex_code, solution_env)
   expected <- eval_parse(solution_pd[[index]][["examples"]], solution_env)
 
   check_that(is_equal(actual, expected), feedback = incorrect_msg)
