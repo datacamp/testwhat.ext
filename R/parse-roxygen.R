@@ -41,25 +41,8 @@ extract_roxygen_from_code <- function(lines) {
     }
   )
   # Flatten the param element for easier manipulation later
-  roxy <- lapply(
-    roxy,
-    function(x) {
-      params <- x[names(x) == "param"]
-      if(length(params) == 0L) return(x)
-      x$param <- lapply(
-        params,
-        function(paramsi) paramsi$description
-      ) %>%
-        setNames(
-          vapply(
-            params,
-            function(paramsi) paramsi$name,
-            character(1)
-          )
-        )
-      x
-    }
-  )
+  roxy <- lapply(roxy, reshape_roxy_params)
+
   # For convenience, it's nice to have elements named after
   # the function that they are describing
   names(roxy) <- vapply(
@@ -74,6 +57,22 @@ extract_roxygen_from_code <- function(lines) {
     character(1L)
   )
   roxy
+}
+
+reshape_roxy_params <- function(x) {
+  params <- x[names(x) == "param"]
+  if(length(params) == 0L) return(x)
+  param_names <- vapply(
+    params,
+    function(param) param$name,
+    character(1)
+  )
+  param_descriptions <- lapply(
+    params,
+    function(param) param$description
+  )
+  x$param <- setNames(param_descriptions, param_names)
+  x
 }
 
 #' Parse roxygen2 comments
