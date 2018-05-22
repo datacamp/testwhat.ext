@@ -14,8 +14,6 @@ Imports:
     testwhat.base
 Suggests: 
     testthat
-Enhances:
-    testwhat
 Remotes:
     datacamp/testwhat.base
 License: GPL-3 + file LICENSE
