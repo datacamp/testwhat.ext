@@ -9,9 +9,11 @@ eval_parse <- testwhat.ext:::eval_parse
 #' @param pre_ex_code A character vector of pre-exercise code.
 #' @param output A character vector of solution code output.
 #' @return An exercise state of class \code{RootState}.
-#' It also has the side effect of setting the state of global testwhat object,
-#' \code{testwhat:::tw}, to this state, and the reporter to a new
+#' It also has the side effect of setting the state of global testwhat.base object,
+#' \code{tw}, to this state, and the reporter to a new
 #' \code{DC_reporter}.
+#'
+#' @importFrom testwhat.base tw
 #' @noRd
 setup_state <- function(stu_code, sol_code = "", pre_ex_code = "", output = "",
   ex_type = c("NormalExercise", "FileExercise")) {
@@ -19,8 +21,6 @@ setup_state <- function(stu_code, sol_code = "", pre_ex_code = "", output = "",
     output <- list(list(type = "output", payload = output))
   }
   ex_type <- match.arg(ex_type)
-
-  tw <<- testwhat:::tw
 
   sol_env <- new_env()
   stu_env <- new_env()
@@ -32,23 +32,23 @@ setup_state <- function(stu_code, sol_code = "", pre_ex_code = "", output = "",
     eval_parse(stu_code, stu_env)
   }
 
-  tw$clear()
+  testwhat.base::tw$clear()
 
-  state <- testwhat:::RootState$new(
+  state <- testwhat.base::RootState$new(
     pec           = pre_ex_code,
     student_code  = stu_code,
-    student_pd    = if(ex_type == "NormalExercise") testwhat:::build_pd(stu_code),
+    student_pd    = if(ex_type == "NormalExercise") testwhat.base::build_pd(stu_code),
     student_env   = stu_env,
     solution_code = sol_code,
-    solution_pd   = if(ex_type == "NormalExercise") testwhat:::build_pd(sol_code),
+    solution_pd   = if(ex_type == "NormalExercise") testwhat.base::build_pd(sol_code),
     solution_env  = sol_env,
     output_list   = output,
     test_env      = new_env()
   )
 
   # testwhat will access the reporter and state from the tw object
-  rep <- testwhat:::DC_reporter$new()
-  tw$set(state = state, reporter = rep, stack = TRUE)
+  rep <- testwhat.base::DC_reporter$new()
+  testwhat.base::tw$set(state = state, reporter = rep, stack = TRUE)
 
   state
 }

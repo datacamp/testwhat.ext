@@ -60,9 +60,8 @@
 #'     check_roxy_example_matches(., 'mean\\\\(.*\\\\)')
 #'   }
 #' }
-#' @importFrom testwhat check_that
-#' @importFrom testwhat is_gte
-#' @importFrom testwhat is_false
+#'
+#' @importFrom testwhat.base is_gte is_false check_that
 #' @export
 check_has_roxy <- function(state, index = 1L, missing_msg = NULL, append = TRUE) {
   student_pd <- state$get("student_pd")
@@ -98,8 +97,7 @@ check_has_roxy_element <- function(state, element, index = 1L, missing_msg = NUL
 }
 
 #' @rdname check_has_roxy
-#' @importFrom testwhat check_that
-#' @importFrom testwhat is_equal
+#' @importFrom testwhat.base check_that is_equal
 #' @export
 check_roxy_element_equals <- function(state, element, index = 1L, incorrect_msg = NULL, append = TRUE) {
   check_has_roxy_element(state, element, index)
@@ -121,8 +119,7 @@ check_roxy_element_equals <- function(state, element, index = 1L, incorrect_msg 
 }
 
 #' @rdname check_has_roxy
-#' @importFrom testwhat check_that
-#' @importFrom testwhat is_gte
+#' @importFrom testwhat.base check_that is_gte get_num_hits
 #' @export
 check_roxy_element_matches <- function(state, element, regex, fixed = FALSE, times = 1L, index = 1L, not_typed_msg = NULL, append = TRUE) {
   check_has_roxy_element(state, element, index)
@@ -136,13 +133,12 @@ check_roxy_element_matches <- function(state, element, regex, fixed = FALSE, tim
     )
   }
   actual <- student_pd[[index]][[element]]
-  num_hits <- testwhat:::get_num_hits(regex = regex, x = actual, fixed = fixed)
+  num_hits <- get_num_hits(regex = regex, x = actual, fixed = fixed)
   check_that(is_gte(num_hits, times), feedback = not_typed_msg)
 }
 
 #' @rdname check_has_roxy
-#' @importFrom testwhat check_that
-#' @importFrom testwhat is_false
+#' @importFrom testwhat.base check_that is_false
 #' @export
 check_has_roxy_param <- function(state, param_name, index = 1L, missing_msg = NULL, append = TRUE) {
   check_has_roxy_element(state, "param", index)
@@ -160,8 +156,7 @@ check_has_roxy_param <- function(state, param_name, index = 1L, missing_msg = NU
 }
 
 #' @rdname check_has_roxy
-#' @importFrom testwhat check_that
-#' @importFrom testwhat is_gte
+#' @importFrom testwhat.base check_that is_gte get_num_hits
 #' @export
 check_roxy_param_matches <- function(state, param_name, regex, fixed = FALSE, index = 1L, not_typed_msg = NULL, append = TRUE) {
   check_has_roxy_param(state, param_name, index)
@@ -175,13 +170,12 @@ check_roxy_param_matches <- function(state, param_name, regex, fixed = FALSE, in
     )
   }
   actual <- student_pd[[index]][["param"]][[param_name]]
-  num_hits <- testwhat:::get_num_hits(regex = regex, x = actual, fixed = fixed)
+  num_hits <- get_num_hits(regex = regex, x = actual, fixed = fixed)
   check_that(is_gte(num_hits, 1L), feedback = not_typed_msg)
 }
 
 #' @rdname check_has_roxy
-#' @importFrom testwhat check_that
-#' @importFrom testwhat is_true
+#' @importFrom testwhat.base check_that is_true
 #' @export
 check_roxy_examples_run <- function(state, index = 1L, not_runnable_msg = NULL, append = TRUE) {
   check_has_roxy_element(state, "examples", index)
@@ -204,8 +198,7 @@ check_roxy_examples_run <- function(state, index = 1L, not_runnable_msg = NULL, 
 }
 
 #' @rdname check_has_roxy
-#' @importFrom testwhat check_that
-#' @importFrom testwhat is_gte
+#' @importFrom testwhat.base check_that is_gte
 #' @export
 check_roxy_examples_result_equals <- function(state, index = 1L, incorrect_msg = NULL, append = TRUE) {
   check_roxy_examples_run(state, index)
@@ -232,6 +225,7 @@ check_roxy_examples_result_equals <- function(state, index = 1L, incorrect_msg =
 }
 
 #' @rdname check_has_roxy
+#' @importFrom testwhat.base check_that is_gte get_num_hits
 #' @export
 check_roxy_example_matches <- function(state, regex, fixed = FALSE, index = 1L, not_typed_msg = NULL, append = TRUE) {
   check_roxy_examples_run(state, index)
@@ -245,7 +239,7 @@ check_roxy_example_matches <- function(state, regex, fixed = FALSE, index = 1L, 
     )
   }
   actual <- student_pd[[index]][["examples"]]
-  num_hits <- testwhat:::get_num_hits(regex = regex, x = actual, fixed = fixed)
+  num_hits <- get_num_hits(regex = regex, x = actual, fixed = fixed)
   check_that(is_gte(num_hits, 1L), feedback = not_typed_msg)
 }
 

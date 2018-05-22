@@ -8,7 +8,7 @@
 #' @return A list of lists. Each top level element corresponds to a roxygen
 #' block. Each second level element corresponds to a roxygen tag within that
 #' block.
-#' @importFrom testwhat %>%
+#' @importFrom magrittr %>%
 #' @importFrom roxygen2 roclet_tags roclet_find tag_value
 #' @importFrom stats setNames
 #' @noRd
@@ -79,9 +79,11 @@ extract_roxygen_from_code <- function(lines) {
 #' @return A child state.
 #' @details The function extracts the roxygen2 comments from the state then
 #' parses them.
+#'
+#' @importFrom testwhat.base ChildState
 #' @export
 parse_roxy <- function(state) {
-  childState <- testwhat:::ChildState$new(state)
+  childState <- ChildState$new(state)
   childState$set(
     student_pd = extract_roxygen_from_code(childState$get("student_code")),
     solution_pd = extract_roxygen_from_code(childState$get("solution_code"))
@@ -130,9 +132,11 @@ extract_description_from_code <- function(lines) {
 #' @return A child state.
 #' @details The function extracts the DESCRIPTION fields from the state then
 #' parses them.
+#'
+#' @importFrom testwhat.base ChildState
 #' @export
 parse_desc <- function(state) {
-  childState <- testwhat:::ChildState$new(state)
+  childState <- ChildState$new(state)
   childState$set(
     student_pd = extract_description_from_code(childState$get("student_code")),
     solution_pd = extract_description_from_code(childState$get("solution_code"))
