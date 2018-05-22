@@ -4,10 +4,10 @@
 #' @param state The state of the exercise, as returned from \code{\link{parse_desc}}.
 #' @param element String naming the element of the roxygen block to check.
 #' @param regex String providing a regular expression for the solution code to
-#' match. See \code{\link{check_code}}.
+#' match. See \code{testwhat}'s \code{check_code} function.
 #' @param expected The expected value.
 #' @param fixed Logical. If \code{TRUE}, regex is treated as a fixed string, not
-#' a regular expression. See \code{\link{check_code}}.
+#' a regular expression. See \code{testwhat}'s \code{check_code} function.
 #' @param times Positive integer. Denotes the number of times the string in
 #' \code{regex} should be matched.
 #' @param missing_msg Optional string. Used to override the feedback message

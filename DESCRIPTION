@@ -9,9 +9,10 @@ Description: This package contains functions that build off of the core
     SCTs combined.
 Imports: 
     roxygen2 (>= 6.0.1),
+    magrittr,
     stats,
-    utils,
-    testwhat.base
+    testwhat.base,
+    utils
 Suggests: 
     testthat
 Remotes:

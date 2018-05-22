@@ -6,9 +6,9 @@
 #' @param index A positive integer or a string naming a function. This describes
 #' which roxygen element in the code to check.
 #' @param regex String providing a regular expression for the solution code to
-#' match. See \code{\link{check_code}}.
+#' match. See See \code{testwhat}'s \code{check_code} function.
 #' @param fixed Logical. If \code{TRUE}, regex is treated as a fixed string, not
-#' a regular expression. See \code{\link{check_code}}.
+#' a regular expression. See \code{testwhat}'s \code{check_code} function.
 #' @param times Positive integer. Denotes the number of times the string in
 #' \code{regex} should be matched.
 #' @param param_name String naming a parameter for the function.

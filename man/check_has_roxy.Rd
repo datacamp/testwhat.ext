@@ -55,10 +55,10 @@ in the event of failure.}
 in the event of failure.}
 
 \item{regex}{String providing a regular expression for the solution code to
-match. See \code{\link{check_code}}.}
+match. See See \code{testwhat}'s \code{check_code} function.}
 
 \item{fixed}{Logical. If \code{TRUE}, regex is treated as a fixed string, not
-a regular expression. See \code{\link{check_code}}.}
+a regular expression. See \code{testwhat}'s \code{check_code} function.}
 
 \item{times}{Positive integer. Denotes the number of times the string in
 \code{regex} should be matched.}

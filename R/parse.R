@@ -8,9 +8,9 @@
 #' @return A list of lists. Each top level element corresponds to a roxygen
 #' block. Each second level element corresponds to a roxygen tag within that
 #' block.
-#' @importFrom magrittr %>%
 #' @importFrom roxygen2 roclet_tags roclet_find tag_value
 #' @importFrom stats setNames
+#' @importFrom magrittr %>%
 #' @noRd
 extract_roxygen_from_code <- function(lines) {
   # roxygen2:::parse_blocks depends very heavily on the
