@@ -117,4 +117,5 @@ require the solution. The other checks can safely be run with
     check_roxy_example_matches(., 'mean\\\\\\\\(.*\\\\\\\\)')
   }
 }
+
 }

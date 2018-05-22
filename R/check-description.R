@@ -48,8 +48,8 @@
 #'     )
 #'   }
 #' }
-#' @importFrom testwhat check_that
-#' @importFrom testwhat is_false
+#'
+#' @importFrom testwhat.base check_that is_false
 #' @export
 check_has_desc_element <- function(state, element, missing_msg = NULL, append = TRUE) {
 
@@ -66,8 +66,7 @@ check_has_desc_element <- function(state, element, missing_msg = NULL, append = 
 }
 
 #' @rdname check_has_desc_element
-#' @importFrom testwhat check_that
-#' @importFrom testwhat is_gte
+#' @importFrom testwhat.base check_that is_gte get_num_hits
 #' @export
 check_desc_element_matches <- function(state, element, regex, fixed = FALSE, times = 1L, not_typed_msg = NULL, append = TRUE) {
   check_has_desc_element(state, element)
@@ -81,13 +80,12 @@ check_desc_element_matches <- function(state, element, regex, fixed = FALSE, tim
     )
   }
   actual <- student_pd[[element]]
-  num_hits <- testwhat:::get_num_hits(regex = regex, x = actual, fixed = fixed)
+  num_hits <- get_num_hits(regex = regex, x = actual, fixed = fixed)
   check_that(is_gte(num_hits, times), feedback = not_typed_msg)
 }
 
 #' @rdname check_has_desc_element
-#' @importFrom testwhat check_that
-#' @importFrom testwhat is_true
+#' @importFrom testwhat.base check_that is_true
 #' @export
 check_desc_version <- function(state, expected, bad_format_msg = NULL, incorrect_msg = NULL, append = TRUE) {
   check_has_desc_element(state, "Version")
@@ -118,8 +116,7 @@ check_desc_version <- function(state, expected, bad_format_msg = NULL, incorrect
 }
 
 #' @rdname check_has_desc_element
-#' @importFrom testwhat check_that
-#' @importFrom testwhat is_true
+#' @importFrom testwhat.base check_that is_true
 #' @export
 check_desc_date <- function(state, expected = Sys.Date(), bad_format_msg = NULL, incorrect_msg = NULL, append = TRUE) {
   check_has_desc_element(state, "Date")
@@ -150,8 +147,7 @@ check_desc_date <- function(state, expected = Sys.Date(), bad_format_msg = NULL,
 }
 
 #' @rdname check_has_desc_element
-#' @importFrom testwhat check_that
-#' @importFrom testwhat is_true
+#' @importFrom testwhat.base check_that is_true
 #' @importFrom utils as.person
 #' @export
 check_desc_authors_at_r <- function(state, expected, bad_format_msg = NULL, incorrect_msg = NULL, append = TRUE) {
