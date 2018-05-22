@@ -13,8 +13,11 @@ Imports:
     utils,
     testwhat.base
 Suggests: 
-    testthat,
+    testthat
+Enhances:
     testwhat
+Remotes:
+    datacamp/testwhat.base
 License: GPL-3 + file LICENSE
 LazyData: TRUE
 RoxygenNote: 6.0.1
