@@ -14,7 +14,6 @@ Imports:
     utils
 Suggests: 
     testthat
-Remotes: datacamp/testwhat.ext
 License: MIT + file LICENSE
 LazyData: TRUE
 RoxygenNote: 6.0.1
