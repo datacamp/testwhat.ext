@@ -80,7 +80,7 @@ extract_roxygen_from_code <- function(lines) {
 #' @details The function extracts the roxygen2 comments from the state then
 #' parses them.
 #'
-#' @importFrom testwhat.base ChildState
+#' @importFrom testwhat ChildState
 #' @export
 parse_roxy <- function(state) {
   childState <- ChildState$new(state)
@@ -88,7 +88,7 @@ parse_roxy <- function(state) {
     student_pd = extract_roxygen_from_code(childState$get("student_code")),
     solution_pd = extract_roxygen_from_code(childState$get("solution_code"))
   )
-  childState
+  return(invisible(childState))
 }
 
 # DESCRIPTION -------------------------------------------------------------
@@ -133,7 +133,7 @@ extract_description_from_code <- function(lines) {
 #' @details The function extracts the DESCRIPTION fields from the state then
 #' parses them.
 #'
-#' @importFrom testwhat.base ChildState
+#' @importFrom testwhat ChildState
 #' @export
 parse_desc <- function(state) {
   childState <- ChildState$new(state)
@@ -141,7 +141,7 @@ parse_desc <- function(state) {
     student_pd = extract_description_from_code(childState$get("student_code")),
     solution_pd = extract_description_from_code(childState$get("solution_code"))
   )
-  childState
+  return(invisible(childState))
 }
 
 

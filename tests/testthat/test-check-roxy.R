@@ -54,9 +54,11 @@ test_that(
  "test check_has_roxy() passes on a function with roxygen code", {
    # Solution code not considered
    state <- setup_state(stu_code = FN_WITH_ROXY)
-   state %>%
-     parse_roxy() %>%
-     check_has_roxy()
+   expect_pass(
+     state %>%
+       parse_roxy() %>%
+       check_has_roxy()
+   )
   }
 )
 
@@ -80,9 +82,11 @@ test_that(
   "test check_has_roxy_element() passes on a function with that roxygen element", {
     # Solution code not considered
     state <- setup_state(stu_code = FN_WITH_ROXY)
-    state %>%
-      parse_roxy() %>%
-      check_has_roxy_element('title')
+    expect_pass(
+      state %>%
+        parse_roxy() %>%
+        check_has_roxy_element('title')
+    )
   }
 )
 
@@ -115,9 +119,11 @@ context("check_roxy_element_equals")
 test_that(
   "test check_roxy_element_equals() passes on a function with a correct roxygen element", {
     state <- setup_state(stu_code = FN_WITH_ROXY, sol_code = FN_WITH_ROXY)
-    state %>%
-      parse_roxy() %>%
-      check_roxy_element_equals('title')
+    expect_pass(
+      state %>%
+        parse_roxy() %>%
+        check_roxy_element_equals('title')
+    )
   }
 )
 
@@ -151,9 +157,11 @@ test_that(
   "test check_roxy_element_matches() passes on a function with a regex-matching roxygen element", {
     # Solution code not considered
     state <- setup_state(stu_code = FN_WITH_ROXY)
-    state %>%
-      parse_roxy() %>%
-      check_roxy_element_matches('examples', 'geomean\\(.*\\)')
+    expect_pass(
+      state %>%
+        parse_roxy() %>%
+        check_roxy_element_matches('examples', 'geomean\\(.*\\)')
+    )
   }
 )
 
@@ -161,9 +169,11 @@ test_that(
   "test check_roxy_element_matches() passes on a function with a fixed-matching roxygen element", {
     # Solution code not considered
     state <- setup_state(stu_code = FN_WITH_ROXY)
-    state %>%
-      parse_roxy() %>%
-      check_roxy_element_matches('description', 'geometric mean', fixed = TRUE)
+    expect_pass(
+      state %>%
+        parse_roxy() %>%
+        check_roxy_element_matches('description', 'geometric mean', fixed = TRUE)
+    )
   }
 )
 
@@ -199,9 +209,11 @@ test_that(
   "test check_has_roxy_param() passes on a function with that roxygen param", {
     # Solution code not considered
     state <- setup_state(stu_code = FN_WITH_ROXY)
-    state %>%
-      parse_roxy() %>%
-      check_has_roxy_param('na.rm')
+    expect_pass(
+      state %>%
+        parse_roxy() %>%
+        check_has_roxy_param('na.rm')
+    )
   }
 )
 
@@ -237,9 +249,11 @@ test_that(
   "test check_roxy_param_matches() passes on a function with that roxygen param", {
     # Solution code not considered
     state <- setup_state(stu_code = FN_WITH_ROXY)
-    state %>%
-      parse_roxy() %>%
-      check_roxy_param_matches('na.rm', '[lL]ogical.*remove missing')
+    expect_pass(
+      state %>%
+        parse_roxy() %>%
+        check_roxy_param_matches('na.rm', '[lL]ogical.*remove missing')
+    )
   }
 )
 
@@ -247,9 +261,11 @@ test_that(
   "test check_roxy_param_matches() passes on a function with a fixed-matching roxygen param", {
     # Solution code not considered
     state <- setup_state(stu_code = FN_WITH_ROXY)
-    state %>%
-      parse_roxy() %>%
-      check_roxy_param_matches('na.rm', 'remove missing values', fixed = TRUE)
+    expect_pass(
+      state %>%
+        parse_roxy() %>%
+        check_roxy_param_matches('na.rm', 'remove missing values', fixed = TRUE)
+    )
   }
 )
 
@@ -291,9 +307,11 @@ test_that(
   "test check_roxy_examples_run() passes on a function with runnable roxygen examples", {
     # Solution code not considered
     state <- setup_state(stu_code = FN_WITH_ROXY)
-    state %>%
-      parse_roxy() %>%
-      check_roxy_examples_run()
+    expect_pass(
+      state %>%
+        parse_roxy() %>%
+        check_roxy_examples_run()
+    )
   }
 )
 
@@ -328,9 +346,11 @@ context("check_roxy_examples_result_equals")
 test_that(
   "test check_roxy_examples_result_equals() passes on a function with a correct roxygen element", {
     state <- setup_state(stu_code = FN_WITH_ROXY, sol_code = FN_WITH_ROXY)
-    state %>%
-      parse_roxy() %>%
-      check_roxy_examples_result_equals()
+    expect_pass(
+      state %>%
+        parse_roxy() %>%
+        check_roxy_examples_result_equals()
+    )
   }
 )
 
@@ -356,9 +376,11 @@ test_that(
   "test check_roxy_example_matches() passes on a function with matching roxygen example", {
     # Solution code not considered
     state <- setup_state(stu_code = FN_WITH_ROXY)
-    state %>%
-      parse_roxy() %>%
-      check_roxy_example_matches('geomean\\(.*\\)')
+    expect_pass(
+      state %>%
+        parse_roxy() %>%
+        check_roxy_example_matches('geomean\\(.*\\)')
+    )
   }
 )
 
@@ -366,9 +388,11 @@ test_that(
   "test check_roxy_example_matches() passes on a function with a fixed-matching roxygen element", {
     # Solution code not considered
     state <- setup_state(stu_code = FN_WITH_ROXY)
-    state %>%
-      parse_roxy() %>%
-      check_roxy_example_matches('geomean(', fixed = TRUE)
+    expect_pass(
+      state %>%
+        parse_roxy() %>%
+        check_roxy_example_matches('geomean(', fixed = TRUE)
+    )
   }
 )
 

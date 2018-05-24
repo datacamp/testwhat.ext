@@ -49,7 +49,7 @@
 #'   }
 #' }
 #'
-#' @importFrom testwhat.base check_that is_false
+#' @importFrom testwhat check_that is_false
 #' @export
 check_has_desc_element <- function(state, element, missing_msg = NULL, append = TRUE) {
 
@@ -63,10 +63,11 @@ check_has_desc_element <- function(state, element, missing_msg = NULL, append = 
   }
   actual <- is.null(student_pd[[element]])
   check_that(is_false(actual), feedback = missing_msg)
+  return(invisible(state))
 }
 
 #' @rdname check_has_desc_element
-#' @importFrom testwhat.base check_that is_gte get_num_hits
+#' @importFrom testwhat check_that is_gte get_num_hits
 #' @export
 check_desc_element_matches <- function(state, element, regex, fixed = FALSE, times = 1L, not_typed_msg = NULL, append = TRUE) {
   check_has_desc_element(state, element)
@@ -82,10 +83,11 @@ check_desc_element_matches <- function(state, element, regex, fixed = FALSE, tim
   actual <- student_pd[[element]]
   num_hits <- get_num_hits(regex = regex, x = actual, fixed = fixed)
   check_that(is_gte(num_hits, times), feedback = not_typed_msg)
+  return(invisible(state))
 }
 
 #' @rdname check_has_desc_element
-#' @importFrom testwhat.base check_that is_true
+#' @importFrom testwhat check_that is_true
 #' @export
 check_desc_version <- function(state, expected, bad_format_msg = NULL, incorrect_msg = NULL, append = TRUE) {
   check_has_desc_element(state, "Version")
@@ -113,10 +115,11 @@ check_desc_version <- function(state, expected, bad_format_msg = NULL, incorrect
 
   actual <- as.package_version(actual)
   check_that(is_equal(actual, expected), feedback = incorrect_msg)
+  return(invisible(state))
 }
 
 #' @rdname check_has_desc_element
-#' @importFrom testwhat.base check_that is_true
+#' @importFrom testwhat check_that is_true
 #' @export
 check_desc_date <- function(state, expected = Sys.Date(), bad_format_msg = NULL, incorrect_msg = NULL, append = TRUE) {
   check_has_desc_element(state, "Date")
@@ -144,10 +147,11 @@ check_desc_date <- function(state, expected = Sys.Date(), bad_format_msg = NULL,
 
   actual <- as.Date(actual)
   check_that(is_equal(actual, expected), feedback = incorrect_msg)
+  return(invisible(state))
 }
 
 #' @rdname check_has_desc_element
-#' @importFrom testwhat.base check_that is_true
+#' @importFrom testwhat check_that is_true
 #' @importFrom utils as.person
 #' @export
 check_desc_authors_at_r <- function(state, expected, bad_format_msg = NULL, incorrect_msg = NULL, append = TRUE) {
@@ -180,4 +184,5 @@ check_desc_authors_at_r <- function(state, expected, bad_format_msg = NULL, inco
 
   authors <- eval_parse(actual, student_env)
   check_that(is_equal(authors, expected), feedback = incorrect_msg)
+  return(invisible(state))
 }
