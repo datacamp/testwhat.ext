@@ -1,6 +1,7 @@
 # testwhat.ext
 
 [![Build Status](https://travis-ci.org/datacamp/testwhat.ext.svg?branch=master)](https://travis-ci.org/datacamp/testwhat.ext)
+[![codecov](https://codecov.io/gh/datacamp/testwhat.ext/branch/master/graph/badge.svg)](https://codecov.io/gh/datacamp/testwhat.ext)
 
 Extensions (high-level SCTs) for testwhat
 
