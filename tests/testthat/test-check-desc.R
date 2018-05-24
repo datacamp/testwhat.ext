@@ -8,9 +8,11 @@ context("check_has_desc_element")
 test_that(
   "test check_has_desc_element() passes on a DESCRIPTION with the required field", {
     state <- setup_state(stu_code = BASE_DESC_LINES, ex_type = "FileExercise")
-    state %>%
-      parse_desc() %>%
-      check_has_desc_element('Package')
+    expect_pass(
+      state %>%
+        parse_desc() %>%
+        check_has_desc_element('Package')
+    )
   }
 )
 
@@ -32,18 +34,22 @@ context("check_desc_element_matches")
 test_that(
   "test check_desc_element_matches() passes on a DESCRIPTION with a matching field", {
     state <- setup_state(stu_code = BASE_DESC_LINES, ex_type = "FileExercise")
-    state %>%
-      parse_desc() %>%
-      check_desc_element_matches('License', '^Part of R \\d.\\d.\\d$')
+    expect_pass(
+      state %>%
+        parse_desc() %>%
+        check_desc_element_matches('License', '^Part of R \\d.\\d.\\d$')
+    )
   }
 )
 
 test_that(
   "test check_desc_element_matches() passes on a DESCRIPTION with a fixed-matching field", {
     state <- setup_state(stu_code = BASE_DESC_LINES, ex_type = "FileExercise")
-    state %>%
-      parse_desc() %>%
-      check_desc_element_matches('Title', 'The R Base Package', fixed = TRUE)
+    expect_pass(
+      state %>%
+        parse_desc() %>%
+        check_desc_element_matches('Title', 'The R Base Package', fixed = TRUE)
+    )
   }
 )
 
@@ -77,9 +83,11 @@ test_that(
   "test check_desc_version() passes on a DESCRIPTION with a correct Version field", {
     state <- setup_state(stu_code = BASE_DESC_LINES, ex_type = "FileExercise")
     r_version <- as.package_version(R.Version())
-    state %>%
-      parse_desc() %>%
-      check_desc_version(r_version)
+    expect_pass(
+      state %>%
+        parse_desc() %>%
+        check_desc_version(r_version)
+    )
   }
 )
 
@@ -123,9 +131,11 @@ test_that(
       stu_code = c(BASE_DESC_LINES, paste("Date:", Sys.Date())),
       ex_type = "FileExercise"
     )
-    state %>%
-      parse_desc() %>%
-      check_desc_date()
+    expect_pass(
+      state %>%
+        parse_desc() %>%
+        check_desc_date()
+    )
   }
 )
 
@@ -167,11 +177,13 @@ test_that(
       ),
       ex_type = "FileExercise"
     )
-    state %>%
-      parse_desc() %>%
-      check_desc_authors_at_r(
-        utils::as.person('R Core Team <R-core@r-project.org> [aut, cre]')
-      )
+    expect_pass(
+      state %>%
+        parse_desc() %>%
+        check_desc_authors_at_r(
+          utils::as.person('R Core Team <R-core@r-project.org> [aut, cre]')
+        )
+    )
   }
 )
 
