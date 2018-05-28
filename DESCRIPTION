@@ -8,7 +8,6 @@ Description: This package contains functions that build off of the core
     building blocks in testwhat. Often, these will be multiple simple
     SCTs combined.
 Imports: 
-    roxygen2 (>= 6.0.1),
     magrittr,
     stats,
     testwhat,
@@ -16,6 +15,7 @@ Imports:
 Suggests: 
     covr,
     Rcpp,
+    roxygen2 (>= 6.0.1),
     testthat
 Remotes:
     datacamp/testwhat,

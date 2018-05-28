@@ -7,14 +7,38 @@
 check_cpp_function_exported(state, return_type, name, not_exported_msg = NULL)
 }
 \arguments{
-\item{state}{A child state that focuses on the cpp portion of an exercise submission.}
+\item{state}{A child state that focuses on the cpp portion of an exercise
+submission.}
 
-\item{return_type}{A character string denoting the return type of the function that should have been exported.}
+\item{return_type}{A character string denoting the return type of the
+function that should have been exported.}
 
-\item{name}{A character string denoting name of the function that should have been exported.}
+\item{name}{A character string denoting name of the function that should have
+been exported.}
 
-\item{not_exported_msg}{An optional character string with a message that is shown if the function was not exported properly.}
+\item{not_exported_msg}{An optional character string with a message that is
+shown if the function was not exported properly.}
 }
 \description{
 This check function uses check_code with an advanced regex pattern.
+}
+\examples{
+\dontrun{
+# Example solution cpp
+#include <Rcpp.h>
+using namespace Rcpp ;
+
+// [[Rcpp::export]]
+int answer(){
+  return 42 ;
+}
+
+/*** R
+x <- answer()
+x
+*/
+
+# SCT
+ex() \%>\% check_cpp() \%>\% check_cpp_function_exported("int", "answer")
+}
 }

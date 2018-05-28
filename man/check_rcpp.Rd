@@ -20,3 +20,26 @@ A child state.
 \description{
 Extracts the embedded R and Cpp portions from a cpp file.
 }
+\examples{
+\dontrun{
+# Example solution cpp
+#include <Rcpp.h>
+using namespace Rcpp ;
+
+// [[Rcpp::export]]
+int answer(){
+  return 42 ;
+}
+
+/*** R
+x <- answer()
+x
+*/
+
+# SCT
+ex() \%>\% check_cpp(.) \%>\% check_code(., "return//s+42//s+;")
+ex() \%>\% check_embedded_r(.) \%>\% check_function("answer") \%>\% check_result()
+
+}
+
+}

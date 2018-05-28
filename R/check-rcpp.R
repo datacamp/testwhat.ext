@@ -5,6 +5,28 @@
 #' @param state An exercise state, as returned by \code{ex()}.
 #' @return A child state.
 #'
+#' @examples
+#' \dontrun{
+#' # Example solution cpp
+#' #include <Rcpp.h>
+#' using namespace Rcpp ;
+#'
+#' // [[Rcpp::export]]
+#' int answer(){
+#'   return 42 ;
+#' }
+#'
+#' /*** R
+#' x <- answer()
+#' x
+#' */
+#'
+#' # SCT
+#' ex() %>% check_cpp(.) %>% check_code(., "return//s+42//s+;")
+#' ex() %>% check_embedded_r(.) %>% check_function("answer") %>% check_result()
+#'
+#' }
+#'
 #' @rdname check_rcpp
 
 #' @name check_rcpp
@@ -61,11 +83,33 @@ parse_cpp_script <- function(code, flatten = TRUE) {
 #'
 #' This check function uses check_code with an advanced regex pattern.
 #'
-#' @param state A child state that focuses on the cpp portion of an exercise submission.
-#' @param return_type A character string denoting the return type of the function that should have been exported.
-#' @param name A character string denoting name of the function that should have been exported.
-#' @param not_exported_msg An optional character string with a message that is shown if the function was not exported properly.
+#' @param state A child state that focuses on the cpp portion of an exercise
+#'   submission.
+#' @param return_type A character string denoting the return type of the
+#'   function that should have been exported.
+#' @param name A character string denoting name of the function that should have
+#'   been exported.
+#' @param not_exported_msg An optional character string with a message that is
+#'   shown if the function was not exported properly.
+#' @examples
+#' \dontrun{
+#' # Example solution cpp
+#' #include <Rcpp.h>
+#' using namespace Rcpp ;
 #'
+#' // [[Rcpp::export]]
+#' int answer(){
+#'   return 42 ;
+#' }
+#'
+#' /*** R
+#' x <- answer()
+#' x
+#' */
+#'
+#' # SCT
+#' ex() %>% check_cpp() %>% check_cpp_function_exported("int", "answer")
+#' }
 #' @importFrom testwhat check_code
 #' @export
 check_cpp_function_exported <- function(state, return_type, name, not_exported_msg = NULL) {

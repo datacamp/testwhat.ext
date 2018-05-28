@@ -8,7 +8,6 @@
 #' @return A list of lists. Each top level element corresponds to a roxygen
 #' block. Each second level element corresponds to a roxygen tag within that
 #' block.
-#' @importFrom roxygen2 roclet_tags roclet_find tag_value
 #' @importFrom stats setNames
 #' @importFrom magrittr %>%
 #' @noRd
@@ -19,9 +18,9 @@ extract_roxygen_from_code <- function(lines) {
   writeLines(lines, tfile)
   # registry setup inferred from body of roxygenize()
   registry <- c(
-    roclet_tags(roclet_find("rd")),
-    roclet_tags(roclet_find("namespace")),
-    include = tag_value
+    roxygen2::roclet_tags(roxygen2::roclet_find("rd")),
+    roxygen2::roclet_tags(roxygen2::roclet_find("namespace")),
+    include = roxygen2::tag_value
   )
   # Parse the file
   roxy <- roxygen2:::parse_blocks(tfile, new.env(), registry)
