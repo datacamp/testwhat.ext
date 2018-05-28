@@ -18,7 +18,7 @@ Suggests:
     Rcpp,
     testthat
 Remotes:
-    datacamp/testwhat
+    datacamp/testwhat,
     RcppCore/Rcpp
 License: GPL-3 + file LICENSE
 LazyData: TRUE
