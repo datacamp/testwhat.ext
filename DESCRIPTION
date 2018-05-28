@@ -15,6 +15,7 @@ Imports:
     utils
 Suggests: 
     covr,
+    Rcpp,
     testthat
 Remotes:
     datacamp/testwhat
