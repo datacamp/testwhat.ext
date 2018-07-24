@@ -1,7 +1,7 @@
 Package: testwhat.ext
 Type: Package
 Title: Extensions for testwhat
-Version: 0.1.0
+Version: 0.1.1
 Author: Michael Chow <michael@datacamp.com>
 Maintainer: Richie Cotton <richie@datacamp.com>
 Description: This package contains functions that build off of the core
