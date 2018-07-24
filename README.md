@@ -10,7 +10,7 @@ Including in a DataCamp course
 
 In the course's `requirements.R`, add
 
-```
+```R
 library(remotes)
 
 install_github("datacamp/testwhat")
@@ -19,10 +19,10 @@ install_github("datacamp/testwhat.ext")
 
 To use the extensions in an exercise's SCT, import the function you want into the SCT block of the exercise:
 
-```
+```R
 library(testwhat.ext)
 
-Ex() %>% check_object2(c('a', 'b', 'c'))
+ex() %>% check_object2(c('a', 'b', 'c'))
 ```
 
 Adding SCTs to testwhat.ext
