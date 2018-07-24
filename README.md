@@ -11,10 +11,10 @@ Including in a DataCamp course
 In the course's `requirements.R`, add
 
 ```
-library(devtools)
+library(remotes)
 
-# replace 0.0.1 with the appropriate release version
-install_github("testwhat.ext@v0.0.1")
+install_github("datacamp/testwhat")
+install_github("datacamp/testwhat.ext")
 ```
 
 To use the extensions in an exercise's SCT, import the function you want into the SCT block of the exercise:
