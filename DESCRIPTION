@@ -17,9 +17,6 @@ Suggests:
     Rcpp,
     roxygen2 (>= 6.0.1),
     testthat
-Remotes:
-    datacamp/testwhat,
-    RcppCore/Rcpp
 License: GPL-3 + file LICENSE
 LazyData: TRUE
 RoxygenNote: 6.0.1
