@@ -3,7 +3,6 @@
 \name{check_rcpp}
 \alias{check_rcpp}
 \alias{check_embedded_r}
-\alias{check_rcpp}
 \alias{check_cpp}
 \title{Parse cpp files with embedded R}
 \usage{
