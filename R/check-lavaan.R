@@ -1,11 +1,15 @@
 #' Turn lavaan model into its data frame version.
 #'
-#' Chain this function onto \code{check_object}.
-#' Use this function first before using \code{\link{check_lavaan_uses}}.
+#' Chain this function onto \code{check_object}. Use this function first before
+#' using \code{\link{check_lavaan_uses}}.
 #'
-#' @param state state to start from (should be state produced by \code{check_object}).
-#' @param invalid_model_msg if specified, this overrides the automatically generated feedback message in case the targeted variable does not validly represent a lavaan model.
-#' @param append whether or not to append the invalid model message to earlier messages that describe the object.
+#' @param state state to start from (should be state produced by
+#'   \code{check_object}).
+#' @param invalid_model_msg if specified, this overrides the automatically
+#'   generated feedback message in case the targeted variable does not validly
+#'   represent a lavaan model.
+#' @param append whether or not to append the invalid model message to earlier
+#'   messages that describe the object.
 #'
 #' @examples
 #' \dontrun{
@@ -64,15 +68,23 @@ check_lavaan_df <- function(state, invalid_model_msg = NULL, append = TRUE) {
 
 #' Check that the student specified a specific piece of an edge formula
 #'
-#' \code{check_lavaan_uses} inspects the model data frame produced by \code{\link{check_lavaan_df}} according to the arguments you specify.
-#' If it cannot find any rows in the data frame that match all of the arguments and corresponding values, the function will fail.
+#' \code{check_lavaan_uses} inspects the model data frame produced by
+#' \code{\link{check_lavaan_df}} according to the arguments you specify. If it
+#' cannot find any rows in the data frame that match all of the arguments and
+#' corresponding values, the function will fail.
 #'
-#' To see which arguments you can pass to the ellipsis argument, use \code{lavaan::lavaanify} on a lavaan model. Examples of arguments are \code{lhs}, \code{op}, and \code{rhs}, among others.
+#' To see which arguments you can pass to the ellipsis argument, use
+#' \code{lavaan::lavaanify} on a lavaan model. Examples of arguments are
+#' \code{lhs}, \code{op}, and \code{rhs}, among others.
 #'
-#' @param state state to start from (has to be the state produced by \code{\link{check_lavaan_df}})
-#' @param incorrect_msg feedback message in case the specified columns and values were not found in the lavaan data frame.
-#' @param append whether or not to append the \code{incorrect_msg} message to earlier messages that describe the object.
-#' @param ... named args are columns of lavaanify output, and their values are used to subset that output.
+#' @param state state to start from (has to be the state produced by
+#'   \code{\link{check_lavaan_df}})
+#' @param incorrect_msg feedback message in case the specified columns and
+#'   values were not found in the lavaan data frame.
+#' @param append whether or not to append the \code{incorrect_msg} message to
+#'   earlier messages that describe the object.
+#' @param ... named args are columns of lavaanify output, and their values are
+#'   used to subset that output.
 #'
 #' @examples
 #' \dontrun{
@@ -139,13 +151,19 @@ match_data_frame <- function(rows_to_find, X) {
 
 #' Run \code{grepl} on lavaan model strings.
 #'
-#' If the pattern is not found, the function throws an error message (that you have to specify explicitly).
+#' If the pattern is not found, the function throws an error message (that you
+#' have to specify explicitly).
 #'
-#' @param state state to start from (should be state produced by \code{check_object}).
-#' @param patt pattern to look for in the lavaan model string that was targeted with \code{check_object}.
-#' @param not_string_msg if specified, this overrides the automatically generated message in case the targetted object is not a string.
-#' @param incorrect_msg feedback message if calling the function specified in func for if the test fails
-#' @param append whether or not to append the feedback messages to earlier messages that describe the object.
+#' @param state state to start from (should be state produced by
+#'   \code{check_object}).
+#' @param patt pattern to look for in the lavaan model string that was targeted
+#'   with \code{check_object}.
+#' @param not_string_msg if specified, this overrides the automatically
+#'   generated message in case the targetted object is not a string.
+#' @param incorrect_msg feedback message if calling the function specified in
+#'   func for if the test fails
+#' @param append whether or not to append the feedback messages to earlier
+#'   messages that describe the object.
 #'
 #' @examples
 #' \dontrun{
