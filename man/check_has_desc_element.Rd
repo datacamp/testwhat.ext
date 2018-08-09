@@ -8,10 +8,11 @@
 \alias{check_desc_authors_at_r}
 \title{Check the DESCRIPTION fields}
 \usage{
-check_has_desc_element(state, element, missing_msg = NULL, append = TRUE)
+check_has_desc_element(state, element, missing_msg = NULL,
+  append = TRUE)
 
-check_desc_element_matches(state, element, regex, fixed = FALSE, times = 1L,
-  not_typed_msg = NULL, append = TRUE)
+check_desc_element_matches(state, element, regex, fixed = FALSE,
+  times = 1L, not_typed_msg = NULL, append = TRUE)
 
 check_desc_version(state, expected, bad_format_msg = NULL,
   incorrect_msg = NULL, append = TRUE)
