@@ -3,30 +3,16 @@
 [![Build Status](https://travis-ci.org/datacamp/testwhat.ext.svg?branch=master)](https://travis-ci.org/datacamp/testwhat.ext)
 [![codecov](https://codecov.io/gh/datacamp/testwhat.ext/branch/master/graph/badge.svg)](https://codecov.io/gh/datacamp/testwhat.ext)
 
-Extensions (high-level SCTs) for testwhat
+Extensions for testwhat for specific use-cases or more high level checks. Documentation can be found [here](https://datacamp/github.io/testwhat.ext).
 
-Including in a DataCamp course
-------------------------------
-
-In the course's `requirements.R`, add
-
-```R
-library(remotes)
-
-install_github("datacamp/testwhat")
-install_github("datacamp/testwhat.ext")
-```
-
-To use the extensions in an exercise's SCT, import the function you want into the SCT block of the exercise:
+To use the extensions in the submission correctness tests for an exercise, explicitly load the package before you use the function:
 
 ```R
 library(testwhat.ext)
-
-ex() %>% check_object2(c('a', 'b', 'c'))
+ex() %>% check_cpp_function_exported("int", "answer")
 ```
 
-Adding SCTs to testwhat.ext
-----------------------------
+## Adding SCTs to testwhat.ext
 
 Follow these steps
 
