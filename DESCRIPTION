@@ -2,8 +2,7 @@ Package: testwhat.ext
 Type: Package
 Title: Extensions for testwhat
 Version: 0.1.1
-Author: Michael Chow <michael@datacamp.com>
-Maintainer: Richie Cotton <richie@datacamp.com>
+Authors@R: person("Filip", "Schouwenaars", ,"filip@datacamp.com", role = c("aut", "cre"))
 Description: This package contains functions that build off of the core
     building blocks in testwhat. Often, these will be multiple simple
     SCTs combined.
@@ -14,6 +13,7 @@ Imports:
     utils
 Suggests: 
     covr,
+    lavaan,
     Rcpp,
     roxygen2 (>= 6.0.1),
     testthat
