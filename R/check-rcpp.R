@@ -113,9 +113,9 @@ parse_cpp_script <- function(code, flatten = TRUE) {
 #' @importFrom testwhat check_code
 #' @export
 check_cpp_function_exported <- function(state, return_type, name, not_exported_msg = NULL) {
-  if (is.null(not_exported_msg)) {
-    not_exported_msg <- sprintf("Did you properly export the function `%s %s()`?", return_type, name)
-  }
-  patt <- sprintf("//\\s*\\[\\[\\s*?Rcpp::export\\s*\\]\\]\\s*\\n+\\s*%s\\s+%s\\s*\\(", return_type, name)
-  state %>% check_code(regex = patt, missing_msg = not_exported_msg)
+    if (is.null(not_exported_msg)) {
+        not_exported_msg <- sprintf("Did you properly export the function `%s()`? It should return a value of type `%s`.", name, return_type)
+    }
+    patt <- sprintf("//\\s*\\[\\[\\s*?Rcpp::export\\s*\\]\\]\\s*\\n+\\s*%s\\s+%s\\s*\\(", return_type, name)
+    state %>% check_code(regex = patt, missing_msg = not_exported_msg)
 }
