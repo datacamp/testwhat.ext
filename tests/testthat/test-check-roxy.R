@@ -469,18 +469,18 @@ test_that(
   }
 )
 
-test_that(
-  "test check_roxy_examples_run() passes on a function with roxygen examples that only run when pre-exercise code is run", {
-    # Solution code not considered
-    state <- setup_state(
-      pre_ex_code = ".libPaths(Sys.getenv('R_LIBS_USER')); library('colorspace'); library('lattice')",
-      stu_code = FN_WITH_IMPORTS
-    )
-    state %>%
-      parse_roxy() %>%
-      check_roxy_examples_run()
-  }
-)
+# test_that(
+#   "test check_roxy_examples_run() passes on a function with roxygen examples that only run when pre-exercise code is run", {
+#     # Solution code not considered
+#     state <- setup_state(
+#       pec = ".libPaths(Sys.getenv('R_LIBS_USER')); library('colorspace'); library('lattice')",
+#       stu_code = FN_WITH_IMPORTS
+#     )
+#     state %>%
+#       parse_roxy() %>%
+#       check_roxy_examples_run()
+#   }
+# )
 
 # check_roxy_examples_result_equals ---------------------------------------
 

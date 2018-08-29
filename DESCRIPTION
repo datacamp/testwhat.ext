@@ -16,7 +16,7 @@ Suggests:
     lavaan,
     pkgdown,
     Rcpp,
-    roxygen2 (>= 6.0.1),
+    roxygen2 (>= 6.1.0),
     testthat
 License: GPL-3 + file LICENSE
 LazyData: TRUE

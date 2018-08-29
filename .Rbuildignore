@@ -9,4 +9,4 @@
 ^README-.*\.png$
 ^pkgdown$
 ^codecov\.yml$
-^CHANGELOG\.md$%
+^CHANGELOG\.md$
