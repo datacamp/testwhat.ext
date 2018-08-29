@@ -1,7 +1,3 @@
-# These tests currently fail because roxygen2:::parse_blocks is no longer available for roxygen2 version 6.1.0
-# See https://github.com/datacamp/testwhat.ext/issues/11 for more context
-if (FALSE) {
-
 # The test style here is different to the ones in testwhat itself.
 # This is to avoid using Rbackend, and make it clearer when things go wrong.
 
@@ -422,5 +418,3 @@ test_that(
     )
   }
 )
-
-}

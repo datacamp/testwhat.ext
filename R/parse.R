@@ -3,7 +3,8 @@
 #' Extract roxygen details from a file
 #'
 #' Parses an R file and extracts the roxygen tags. Mostly just a wrapper
-#' around \code{roxygen2:::parse_blocks}.
+#' around \code{roxygen2::parse_text}.
+#'
 #' @param lines A character vector of code lines.
 #' @return A list of lists. Each top level element corresponds to a roxygen
 #' block. Each second level element corresponds to a roxygen tag within that
@@ -12,10 +13,6 @@
 #' @importFrom magrittr %>%
 #' @noRd
 extract_roxygen_from_code <- function(lines) {
-  # roxygen2:::parse_blocks depends very heavily on the
-  # code being in a file
-  tfile <- tempfile(fileext = ".R")
-  writeLines(lines, tfile)
   # registry setup inferred from body of roxygenize()
   registry <- c(
     roxygen2::roclet_tags(roxygen2::roclet_find("rd")),
@@ -23,7 +20,7 @@ extract_roxygen_from_code <- function(lines) {
     include = roxygen2::tag_value
   )
   # Parse the file
-  roxy <- roxygen2:::parse_blocks(tfile, new.env(), registry)
+  roxy <- roxygen2::parse_text(lines, new.env(), registry)
   # Unclass object to fix the print method
   roxy <- lapply(
     roxy,
