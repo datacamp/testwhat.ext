@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+- Add roxygen related tests again (disable one that causes issues with Travis)
+- Include new functions to verify roxygen related tasks
+- Fix `parse_roxy()`; it only works with `roxygen2` version 6.1.0 from now on.
+
 ## 0.2.0
 
 ### Added
