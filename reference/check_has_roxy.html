@@ -120,6 +120,15 @@
 <span class='fu'>check_roxy_param_matches</span>(<span class='no'>state</span>, <span class='no'>param_name</span>, <span class='no'>regex</span>, <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>index</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>not_typed_msg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>append</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
+<span class='fu'>check_roxy_imports_package</span>(<span class='no'>state</span>, <span class='no'>pkg_name</span>, <span class='kw'>index</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>missing_msg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>append</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='fu'>check_roxy_imports_from_package</span>(<span class='no'>state</span>, <span class='no'>pkg_name</span>, <span class='kw'>index</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
+  <span class='kw'>missing_msg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>append</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
+<span class='fu'>check_roxy_imports_object_from_package</span>(<span class='no'>state</span>, <span class='no'>pkg_name</span>, <span class='no'>object_name</span>,
+  <span class='kw'>index</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>missing_msg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>append</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+
 <span class='fu'>check_roxy_examples_run</span>(<span class='no'>state</span>, <span class='kw'>index</span> <span class='kw'>=</span> <span class='fl'>1L</span>, <span class='kw'>not_runnable_msg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>append</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
@@ -182,6 +191,14 @@ in the event of failure.</p></td>
     <tr>
       <th>param_name</th>
       <td><p>String naming a parameter for the function.</p></td>
+    </tr>
+    <tr>
+      <th>pkg_name</th>
+      <td><p>String naming an R package to import from.</p></td>
+    </tr>
+    <tr>
+      <th>object_name</th>
+      <td><p>String naming an object to import from another package.</p></td>
     </tr>
     <tr>
       <th>not_runnable_msg</th>
