@@ -3,7 +3,8 @@
 #' Extract roxygen details from a file
 #'
 #' Parses an R file and extracts the roxygen tags. Mostly just a wrapper
-#' around \code{roxygen2:::parse_blocks}.
+#' around \code{roxygen2::parse_text}.
+#'
 #' @param lines A character vector of code lines.
 #' @return A list of lists. Each top level element corresponds to a roxygen
 #' block. Each second level element corresponds to a roxygen tag within that
@@ -12,63 +13,107 @@
 #' @importFrom magrittr %>%
 #' @noRd
 extract_roxygen_from_code <- function(lines) {
-  # roxygen2:::parse_blocks depends very heavily on the
-  # code being in a file
-  tfile <- tempfile(fileext = ".R")
-  writeLines(lines, tfile)
+
+  # Prevent roxygen2 looking for the non-existent DESCRIPTION file
+  # in package-level documentation. See
+  # https://cran.r-project.org/web/packages/roxygen2/vignettes/rd.html#documenting-packages
+  # and roxygen2:::find_data() and roxygen2:::find_data_for_package()
+  lines <- sub("[\r\n] *['\"]_PACKAGE['\"] *(\n|\r|$)", "\nNULL\n", lines)
+
   # registry setup inferred from body of roxygenize()
   registry <- c(
-    roxygen2::roclet_tags(roxygen2::roclet_find("rd")),
-    roxygen2::roclet_tags(roxygen2::roclet_find("namespace")),
+    roxygen2::roclet_tags(roxygen2::roclet_find("rd_roclet")),
+    roxygen2::roclet_tags(roxygen2::roclet_find("namespace_roclet")),
     include = roxygen2::tag_value
   )
+
   # Parse the file
-  roxy <- roxygen2:::parse_blocks(tfile, new.env(), registry)
+  roxy <- roxygen2::parse_text(lines, new.env(), registry)
+
   # Unclass object to fix the print method
-  roxy <- lapply(
-    roxy,
-    function(x) {
-      # This object doesn't print properly
-      if(!is.null(x$object)) {
-        x$object <- unclass(x$object)
-      }
-      x
-    }
-  )
-  # Flatten the param element for easier manipulation later
-  roxy <- lapply(
-    roxy,
-    function(x) {
-      params <- x[names(x) == "param"]
-      if(length(params) == 0L) return(x)
-      x$param <- lapply(
-        params,
-        function(paramsi) paramsi$description
-      ) %>%
-        setNames(
-          vapply(
-            params,
-            function(paramsi) paramsi$name,
-            character(1)
-          )
-        )
-      x
-    }
-  )
+  roxy <- roxy %>%
+    lapply(unclass_roxy_object)
+
+  # Reshape the @param, @import, and @importFrom elements
+  # for easier manipulation later
+  roxy <- roxy %>%
+    lapply(reshape_roxy_params) %>%
+    lapply(reshape_roxy_import) %>%
+    lapply(reshape_roxy_import_from)
+
   # For convenience, it's nice to have elements named after
   # the function that they are describing
-  names(roxy) <- vapply(
-    roxy,
-    function(x) {
-      if(!is.null(x$object$alias)) {
-        x$object$alias
-      } else {
-        ""
-      }
-    },
-    character(1L)
-  )
+  names(roxy) <- roxy %>%
+    vapply(get_roxy_object_alias, character(1L))
   roxy
+}
+
+unclass_roxy_object <- function(x) {
+  # This object doesn't print properly
+  if(!is.null(x$object)) {
+    x$object <- unclass(x$object)
+  }
+  x
+}
+
+reshape_roxy_params <- function(x) {
+  params <- x[names(x) == "param"]
+  if(length(params) == 0L) return(x)
+  param_names <- vapply(
+    params,
+    function(param) param$name,
+    character(1)
+  )
+  param_descriptions <- lapply(
+    params,
+    function(param) param$description
+  )
+  x$param <- setNames(param_descriptions, param_names)
+  x
+}
+
+reshape_roxy_import <- function(x) {
+  imports <- x[names(x) == "import"]
+  if(length(imports) == 0L) return(x)
+  # Need to remove multiple existing elements and recreate
+  x[names(x) == "import"] <- NULL
+
+  x$import <- unlist(imports, use.names = FALSE)
+  x
+}
+
+reshape_roxy_import_from <- function(x) {
+  import_froms <- x[names(x) == "importFrom"]
+  if(length(import_froms) == 0L) return(x)
+  # Need to remove multiple existing elements and recreate
+  x[names(x) == "importFrom"] <- NULL
+
+  pkg_names <- vapply(
+    import_froms,
+    function(import_from) import_from[1L],
+    character(1)
+  )
+  object_names <- lapply(
+    import_froms,
+    function(import_from) import_from[-1L]
+  )
+  x$importFrom <- setNames(object_names, pkg_names) %>%
+    concatenate_elements_with_same_name()
+  x
+}
+
+concatenate_elements_with_same_name <- function(lst) {
+  lst %>%
+    split(names(lst)) %>%
+    lapply(unlist, recursive = FALSE, use.names = FALSE)
+}
+
+get_roxy_object_alias <- function(x) {
+  if(!is.null(x$object$alias)) {
+    x$object$alias
+  } else {
+    ""
+  }
 }
 
 #' Parse roxygen2 comments

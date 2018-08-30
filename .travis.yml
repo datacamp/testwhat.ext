@@ -1,7 +1,8 @@
 language: r
 cache: packages
 
-r_github_packages: datacamp/testwhat
+r_github_packages:
+  - datacamp/testwhat
 
 after_success:
   - Rscript -e 'covr::codecov()'

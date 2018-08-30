@@ -7,6 +7,9 @@
 \alias{check_roxy_element_matches}
 \alias{check_has_roxy_param}
 \alias{check_roxy_param_matches}
+\alias{check_roxy_imports_package}
+\alias{check_roxy_imports_from_package}
+\alias{check_roxy_imports_object_from_package}
 \alias{check_roxy_examples_run}
 \alias{check_roxy_examples_result_equals}
 \alias{check_roxy_example_matches}
@@ -28,6 +31,15 @@ check_has_roxy_param(state, param_name, index = 1L, missing_msg = NULL,
 
 check_roxy_param_matches(state, param_name, regex, fixed = FALSE,
   index = 1L, not_typed_msg = NULL, append = TRUE)
+
+check_roxy_imports_package(state, pkg_name, index = 1L, missing_msg = NULL,
+  append = TRUE)
+
+check_roxy_imports_from_package(state, pkg_name, index = 1L,
+  missing_msg = NULL, append = TRUE)
+
+check_roxy_imports_object_from_package(state, pkg_name, object_name,
+  index = 1L, missing_msg = NULL, append = TRUE)
 
 check_roxy_examples_run(state, index = 1L, not_runnable_msg = NULL,
   append = TRUE)
@@ -67,6 +79,10 @@ a regular expression. See \code{testwhat}'s \code{check_code} function.}
 in the event of failure.}
 
 \item{param_name}{String naming a parameter for the function.}
+
+\item{pkg_name}{String naming an R package to import from.}
+
+\item{object_name}{String naming an object to import from another package.}
 
 \item{not_runnable_msg}{Optional string. Used to override the feedback message
 in the event of failure.

@@ -12,6 +12,8 @@
 #' @param times Positive integer. Denotes the number of times the string in
 #' \code{regex} should be matched.
 #' @param param_name String naming a parameter for the function.
+#' @param pkg_name String naming an R package to import from.
+#' @param object_name String naming an object to import from another package.
 #' @param missing_msg Optional string. Used to override the feedback message
 #' in the event of failure.
 #' @param incorrect_msg Optional string. Used to override the feedback message
@@ -183,9 +185,68 @@ check_roxy_param_matches <- function(state, param_name, regex, fixed = FALSE, in
 #' @rdname check_has_roxy
 #' @importFrom testwhat check_that is_true
 #' @export
+check_roxy_imports_package <- function(state, pkg_name, index = 1L, missing_msg = NULL, append = TRUE) {
+  check_has_roxy_element(state, "import", index)
+
+  student_pd <- state$get("student_pd")
+
+  if(is.null(missing_msg)) {
+    missing_msg <- sprintf(
+      "In roxygen block '%s', package '%s' was not imported.",
+      index, pkg_name
+    )
+  }
+
+  pkgs_imported <- student_pd[[index]][["import"]]
+  check_that(is_true(pkg_name %in% pkgs_imported), feedback = missing_msg)
+}
+
+#' @rdname check_has_roxy
+#' @importFrom testwhat check_that
+#' @importFrom testwhat is_false
+#' @export
+check_roxy_imports_from_package <- function(state, pkg_name, index = 1L, missing_msg = NULL, append = TRUE) {
+  check_has_roxy_element(state, "importFrom", index)
+
+  student_pd <- state$get("student_pd")
+
+  if(is.null(missing_msg)) {
+    missing_msg <- sprintf(
+      "In roxygen block '%s', nothing was imported from package '%s'.",
+      index, pkg_name
+    )
+  }
+  pkg_to_import_from <- student_pd[[index]][["importFrom"]][[pkg_name]]
+  check_that(is_false(is.null(pkg_to_import_from)), feedback = missing_msg)
+}
+
+#' @rdname check_has_roxy
+#' @importFrom testwhat check_that
+#' @importFrom testwhat is_true
+#' @export
+check_roxy_imports_object_from_package <- function(state, pkg_name, object_name, index = 1L, missing_msg = NULL, append = TRUE) {
+  check_roxy_imports_from_package(state, pkg_name, index)
+
+  student_pd <- state$get("student_pd")
+
+  if(is.null(missing_msg)) {
+    missing_msg <- sprintf(
+      "In roxygen block '%s', '%s' was not imported from '%s'.",
+      index, object_name, pkg_name
+    )
+  }
+  imported_objects <- student_pd[[index]][["importFrom"]][[pkg_name]]
+  check_that(is_true(object_name %in% imported_objects), feedback = missing_msg)
+}
+
+#' @rdname check_has_roxy
+#' @importFrom testwhat check_that
+#' @importFrom testwhat is_true
+#' @export
 check_roxy_examples_run <- function(state, index = 1L, not_runnable_msg = NULL, append = TRUE) {
   check_has_roxy_element(state, "examples", index)
 
+  pre_ex_code <- state$get("pec")
   student_pd <- state$get("student_pd")
   student_env <- state$get("student_env")
 
@@ -196,8 +257,11 @@ check_roxy_examples_run <- function(state, index = 1L, not_runnable_msg = NULL, 
     )
   }
   actual <- student_pd[[index]][["examples"]]
-  is_runnable <- tryCatch(
-    {eval_parse(actual, student_env); TRUE},
+  is_runnable <- tryCatch({
+      eval_parse(pre_ex_code, student_env)
+      eval_parse(actual, student_env)
+      TRUE
+    },
     error = function(e) FALSE
   )
   check_that(is_true(is_runnable), feedback = not_runnable_msg)
@@ -210,9 +274,9 @@ check_roxy_examples_run <- function(state, index = 1L, not_runnable_msg = NULL, 
 check_roxy_examples_result_equals <- function(state, index = 1L, incorrect_msg = NULL, append = TRUE) {
   check_roxy_examples_run(state, index)
 
+  pre_ex_code <- state$get("pec")
   student_pd <- state$get("student_pd")
   solution_pd <- state$get("solution_pd")
-
   student_env <- state$get("student_env")
   solution_env <- state$get("solution_env")
 
@@ -224,8 +288,10 @@ check_roxy_examples_result_equals <- function(state, index = 1L, incorrect_msg =
   }
 
   set.seed(19790801)
+  eval_parse(pre_ex_code, student_env)
   actual <- eval_parse(student_pd[[index]][["examples"]], student_env)
   set.seed(19790801)
+  eval_parse(pre_ex_code, solution_env)
   expected <- eval_parse(solution_pd[[index]][["examples"]], solution_env)
 
   check_that(is_equal(actual, expected), feedback = incorrect_msg)
