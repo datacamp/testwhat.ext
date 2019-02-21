@@ -12,9 +12,9 @@ lint_from_code <- function(lines) {
     lintr::lint(tf),
     function(lint) {
       paste0(
-        "L", lint$line_number,
-        "C", lint$column_number,
-        " ", lint$message
+        lint$line_number,
+        ":", lint$column_number,
+        " ", sQuote(lint$message)
       )
     },
     character(1)
@@ -54,7 +54,7 @@ check_is_lint_free <- function(state) {
   has_lint_feedback_msg <- sprintf(
     "You have %d lints left to fix. The messages are: \n%s",
     n_lints,
-    paste(student_lint, collapse = "\t")
+    paste(student_lint, collapse = "  ")
   )
   check_that(is_true(n_lints == 0), feedback = has_lint_feedback_msg)
   return(invisible(state))
