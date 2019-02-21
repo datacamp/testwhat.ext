@@ -1,6 +1,6 @@
 #' Write code lines to file and get lint msgs
-#' 
-#' Writes a character vector of R code to a file and runs 
+#'
+#' Writes a character vector of R code to a file and runs
 #' \code{\link[lintr]{lintr}} on it.
 #' @param lines A character vector of R code.
 #' @return A character vector of lint messages.
@@ -9,14 +9,14 @@ lint_from_code <- function(lines) {
   tf <- tempfile()
   writeLines(lines, tf);
   vapply(
-    lintr::lint(tf), 
+    lintr::lint(tf),
     function(lint) {
       paste0(
         "L", lint$line_number,
         "C", lint$column_number,
         " ", lint$message
       )
-    }, 
+    },
     character(1)
   )
 }
@@ -42,7 +42,7 @@ make_lint_state <- function(state) {
 #' Check that there is no lint
 #'
 #' Check that the student's code is lint-free
-#' @param state The state of the exercise, as returned from 
+#' @param state The state of the exercise, as returned from
 #' \code{\link{make_lint_state}}.
 #' @return The child state.
 #' @importFrom testwhat is_gte is_true check_that
@@ -50,11 +50,11 @@ make_lint_state <- function(state) {
 check_is_lint_free <- function(state) {
   student_lint <- state$get("student_pd")
   n_lints <- length(student_lint)
-  # 
+  #
   has_lint_feedback_msg <- sprintf(
-    "You have %d lints left to fix. The messages are: \n%s", 
-    n_lints, 
-    paste(lints, collapse = "\t")
+    "You have %d lints left to fix. The messages are: \n%s",
+    n_lints,
+    paste(student_lint, collapse = "\t")
   )
   check_that(is_true(n_lints == 0), feedback = has_lint_feedback_msg)
   return(invisible(state))

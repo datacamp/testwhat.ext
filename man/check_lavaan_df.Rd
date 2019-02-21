@@ -7,15 +7,19 @@
 check_lavaan_df(state, invalid_model_msg = NULL, append = TRUE)
 }
 \arguments{
-\item{state}{state to start from (should be state produced by \code{check_object}).}
+\item{state}{state to start from (should be state produced by
+\code{check_object}).}
 
-\item{invalid_model_msg}{if specified, this overrides the automatically generated feedback message in case the targeted variable does not validly represent a lavaan model.}
+\item{invalid_model_msg}{if specified, this overrides the automatically
+generated feedback message in case the targeted variable does not validly
+represent a lavaan model.}
 
-\item{append}{whether or not to append the invalid model message to earlier messages that describe the object.}
+\item{append}{whether or not to append the invalid model message to earlier
+messages that describe the object.}
 }
 \description{
-Chain this function onto \code{check_object}.
-Use this function first before using \code{\link{check_lavaan_uses}}.
+Chain this function onto \code{check_object}. Use this function first before
+using \code{\link{check_lavaan_uses}}.
 }
 \examples{
 \dontrun{

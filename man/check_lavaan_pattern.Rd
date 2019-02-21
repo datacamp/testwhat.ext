@@ -8,18 +8,24 @@ check_lavaan_pattern(state, patt, not_string_msg = NULL, incorrect_msg,
   append = TRUE)
 }
 \arguments{
-\item{state}{state to start from (should be state produced by \code{check_object}).}
+\item{state}{state to start from (should be state produced by
+\code{check_object}).}
 
-\item{patt}{pattern to look for in the lavaan model string that was targeted with \code{check_object}.}
+\item{patt}{pattern to look for in the lavaan model string that was targeted
+with \code{check_object}.}
 
-\item{not_string_msg}{if specified, this overrides the automatically generated message in case the targetted object is not a string.}
+\item{not_string_msg}{if specified, this overrides the automatically
+generated message in case the targetted object is not a string.}
 
-\item{incorrect_msg}{feedback message if calling the function specified in func for if the test fails}
+\item{incorrect_msg}{feedback message if calling the function specified in
+func for if the test fails}
 
-\item{append}{whether or not to append the feedback messages to earlier messages that describe the object.}
+\item{append}{whether or not to append the feedback messages to earlier
+messages that describe the object.}
 }
 \description{
-If the pattern is not found, the function throws an error message (that you have to specify explicitly).
+If the pattern is not found, the function throws an error message (that you
+have to specify explicitly).
 }
 \examples{
 \dontrun{
