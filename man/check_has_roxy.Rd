@@ -32,8 +32,8 @@ check_has_roxy_param(state, param_name, index = 1L, missing_msg = NULL,
 check_roxy_param_matches(state, param_name, regex, fixed = FALSE,
   index = 1L, not_typed_msg = NULL, append = TRUE)
 
-check_roxy_imports_package(state, pkg_name, index = 1L, missing_msg = NULL,
-  append = TRUE)
+check_roxy_imports_package(state, pkg_name, index = 1L,
+  missing_msg = NULL, append = TRUE)
 
 check_roxy_imports_from_package(state, pkg_name, index = 1L,
   missing_msg = NULL, append = TRUE)
