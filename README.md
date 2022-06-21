@@ -1,3 +1,6 @@
+> :warning: **This repo has outdated tokens in its travisci config**
+> To make new releases for this project it needs to be moved to circleci
+
 # testwhat.ext
 
 [![Build Status](https://travis-ci.org/datacamp/testwhat.ext.svg?branch=master)](https://travis-ci.org/datacamp/testwhat.ext)
