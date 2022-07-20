@@ -20,15 +20,8 @@ extract_roxygen_from_code <- function(lines) {
   # and roxygen2:::find_data() and roxygen2:::find_data_for_package()
   lines <- sub("[\r\n] *['\"]_PACKAGE['\"] *(\n|\r|$)", "\nNULL\n", lines)
 
-  # registry setup inferred from body of roxygenize()
-  registry <- c(
-    roxygen2::roclet_tags(roxygen2::roclet_find("rd_roclet")),
-    roxygen2::roclet_tags(roxygen2::roclet_find("namespace_roclet")),
-    include = roxygen2::tag_value
-  )
-
   # Parse the file
-  roxy <- roxygen2::parse_text(lines, new.env(), registry)
+  roxy <- roxygen2::parse_text(lines, new.env())
 
   # Unclass object to fix the print method
   roxy <- roxy %>%
