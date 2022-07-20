@@ -157,8 +157,8 @@ check_has_roxy_param <- function(state, param_name, index = 1L, missing_msg = NU
       param_name, index
     )
   }
-  actual <- is.null(student_pd[[index]][["param"]][[param_name]])
-  check_that(is_false(actual), feedback = missing_msg)
+  actual <- param_name %in% lapply(roxygen2::block_get_tags(student_pd[[index]], "param"), function(x) x$val$name)
+  check_that(actual, feedback = missing_msg)
   return(invisible(state))
 }
 
@@ -176,7 +176,8 @@ check_roxy_param_matches <- function(state, param_name, regex, fixed = FALSE, in
       param_name, index, regex
     )
   }
-  actual <- student_pd[[index]][["param"]][[param_name]]
+  param_idx <- which(sapply(lapply(roxygen2::block_get_tags(student_pd[[index]], "param"), function(x) x$val$name), function(x) is.element(param_name, x)))
+  actual <- lapply(roxygen2::block_get_tags(student_pd[[index]], "param"), function(x) x$val$description)[[param_idx]]
   num_hits <- get_num_hits(regex = regex, x = actual, fixed = fixed)
   check_that(is_gte(num_hits, 1L), feedback = not_typed_msg)
   return(invisible(state))
