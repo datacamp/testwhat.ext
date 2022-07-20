@@ -157,7 +157,7 @@ check_has_roxy_param <- function(state, param_name, index = 1L, missing_msg = NU
       param_name, index
     )
   }
-  actual <- param_name %in% lapply(roxygen2::block_get_tags(student_pd[[index]], "param"), function(x) x$val$name)
+  actual <- param_name %in% sapply(roxygen2::block_get_tags(student_pd[[index]], "param"), function(x) x$val$name)
   check_that(actual, feedback = missing_msg)
   return(invisible(state))
 }
@@ -176,8 +176,8 @@ check_roxy_param_matches <- function(state, param_name, regex, fixed = FALSE, in
       param_name, index, regex
     )
   }
-  param_idx <- which(sapply(lapply(roxygen2::block_get_tags(student_pd[[index]], "param"), function(x) x$val$name), function(x) is.element(param_name, x)))
-  actual <- lapply(roxygen2::block_get_tags(student_pd[[index]], "param"), function(x) x$val$description)[[param_idx]]
+  param_idx <- which(sapply(roxygen2::block_get_tags(student_pd[[index]], "param"), function(x) x$val$name) == param_name)
+  actual <- sapply(roxygen2::block_get_tags(student_pd[[index]], "param"), function(x) x$val$description)[param_idx]
   num_hits <- get_num_hits(regex = regex, x = actual, fixed = fixed)
   check_that(is_gte(num_hits, 1L), feedback = not_typed_msg)
   return(invisible(state))
@@ -198,7 +198,7 @@ check_roxy_imports_package <- function(state, pkg_name, index = 1L, missing_msg 
     )
   }
 
-  pkgs_imported <- student_pd[[index]][["import"]]
+  pkgs_imported <- sapply(roxygen2::block_get_tags(student_pd[[1]], "import"), function(x) x$val)
   check_that(is_true(pkg_name %in% pkgs_imported), feedback = missing_msg)
 }
 
@@ -217,8 +217,8 @@ check_roxy_imports_from_package <- function(state, pkg_name, index = 1L, missing
       index, pkg_name
     )
   }
-  pkg_to_import_from <- student_pd[[index]][["importFrom"]][[pkg_name]]
-  check_that(is_false(is.null(pkg_to_import_from)), feedback = missing_msg)
+  pkgs_to_import_from <- sapply(lapply(roxygen2::block_get_tags(student_pd[[index]], "importFrom"), function(x) x$val), `[[`, 1)
+  check_that(is_true(pkg_name %in% pkgs_to_import_from), feedback = missing_msg)
 }
 
 #' @rdname check_has_roxy
@@ -236,7 +236,9 @@ check_roxy_imports_object_from_package <- function(state, pkg_name, object_name,
       index, object_name, pkg_name
     )
   }
-  imported_objects <- student_pd[[index]][["importFrom"]][[pkg_name]]
+  import_from <- lapply(roxygen2::block_get_tags(student_pd[[index]], "importFrom"), function(x) x$val)
+  pkg_idx <- which(sapply(import_from, `[[`, 1) == pkg_name)
+  imported_objects <- import_from[pkg_idx][[1]][-1]
   check_that(is_true(object_name %in% imported_objects), feedback = missing_msg)
 }
 
