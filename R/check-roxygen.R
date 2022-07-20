@@ -259,7 +259,7 @@ check_roxy_examples_run <- function(state, index = 1L, not_runnable_msg = NULL, 
       index
     )
   }
-  actual <- student_pd[[index]][["examples"]]
+  actual <- sapply(roxygen2::block_get_tags(student_pd[[index]], "examples"), function(x) x$val)
   is_runnable <- tryCatch({
       eval_parse(pre_ex_code, student_env)
       eval_parse(actual, student_env)
@@ -315,7 +315,7 @@ check_roxy_example_matches <- function(state, regex, fixed = FALSE, index = 1L, 
       index, regex
     )
   }
-  actual <- student_pd[[index]][["examples"]]
+  actual <- sapply(roxygen2::block_get_tags(student_pd[[index]], "examples"), function(x) x$val)
   num_hits <- get_num_hits(regex = regex, x = actual, fixed = fixed)
   check_that(is_gte(num_hits, 1L), feedback = not_typed_msg)
   return(invisible(state))
