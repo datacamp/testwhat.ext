@@ -95,8 +95,8 @@ check_has_roxy_element <- function(state, element, index = 1L, missing_msg = NUL
       element, index
     )
   }
-  actual <- is.null(student_pd[[index]][[element]])
-  check_that(is_false(actual), feedback = missing_msg)
+  actual <- roxygen2::block_has_tags(student_pd[[index]], element)
+  check_that(actual, feedback = missing_msg)
   return(invisible(state))
 }
 
@@ -137,7 +137,7 @@ check_roxy_element_matches <- function(state, element, regex, fixed = FALSE, tim
       element, index, regex
     )
   }
-  actual <- student_pd[[index]][[element]]
+  actual <- roxygen2::block_get_tag_value(student_pd[[index]], element)
   num_hits <- get_num_hits(regex = regex, x = actual, fixed = fixed)
   check_that(is_gte(num_hits, times), feedback = not_typed_msg)
   return(invisible(state))
