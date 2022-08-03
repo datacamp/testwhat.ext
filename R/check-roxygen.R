@@ -238,7 +238,7 @@ check_roxy_imports_object_from_package <- function(state, pkg_name, object_name,
   }
   import_from <- lapply(roxygen2::block_get_tags(student_pd[[index]], "importFrom"), function(x) x$val)
   pkg_idx <- which(sapply(import_from, `[[`, 1) == pkg_name)
-  imported_objects <- import_from[pkg_idx][[1]][-1]
+  imported_objects <- unlist(lapply(import_from[pkg_idx], `[`, -1))
   check_that(is_true(object_name %in% imported_objects), feedback = missing_msg)
 }
 
