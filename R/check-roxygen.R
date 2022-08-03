@@ -116,8 +116,8 @@ check_roxy_element_equals <- function(state, element, index = 1L, incorrect_msg 
     )
   }
 
-  actual <- student_pd[[index]][[element]]
-  expected <- solution_pd[[index]][[element]]
+  actual <- roxygen2::block_get_tag_value(student_pd[[index]], element)
+  expected <- roxygen2::block_get_tag_value(solution_pd[[index]], element)
 
   check_that(is_equal(actual, expected), feedback = incorrect_msg)
   return(invisible(state))
@@ -292,10 +292,10 @@ check_roxy_examples_result_equals <- function(state, index = 1L, incorrect_msg =
 
   set.seed(19790801)
   eval_parse(pre_ex_code, student_env)
-  actual <- eval_parse(student_pd[[index]][["examples"]], student_env)
+  actual <- eval_parse(sapply(roxygen2::block_get_tags(student_pd[[index]], "examples"), function(x) x$val), student_env)
   set.seed(19790801)
   eval_parse(pre_ex_code, solution_env)
-  expected <- eval_parse(solution_pd[[index]][["examples"]], solution_env)
+  expected <- eval_parse(sapply(roxygen2::block_get_tags(solution_pd[[index]], "examples"), function(x) x$val), solution_env)
 
   check_that(is_equal(actual, expected), feedback = incorrect_msg)
   return(invisible(state))
