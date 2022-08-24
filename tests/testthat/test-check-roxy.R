@@ -152,9 +152,11 @@ test_that(
   "test check_has_roxy_element() passes on package documentation", {
     # Solution code not considered
     state <- setup_state(stu_code = PACKAGE_DOCS)
-    state %>%
-      parse_roxy() %>%
-      check_has_roxy_element('docType')
+    expect_pass(
+      state %>%
+        parse_roxy() %>%
+        check_has_roxy_element('docType')
+    )
   }
 )
 
