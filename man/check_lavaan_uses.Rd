@@ -7,20 +7,28 @@
 check_lavaan_uses(state, incorrect_msg, append = TRUE, ...)
 }
 \arguments{
-\item{state}{state to start from (has to be the state produced by \code{\link{check_lavaan_df}})}
+\item{state}{state to start from (has to be the state produced by
+\code{\link{check_lavaan_df}})}
 
-\item{incorrect_msg}{feedback message in case the specified columns and values were not found in the lavaan data frame.}
+\item{incorrect_msg}{feedback message in case the specified columns and
+values were not found in the lavaan data frame.}
 
-\item{append}{whether or not to append the \code{incorrect_msg} message to earlier messages that describe the object.}
+\item{append}{whether or not to append the \code{incorrect_msg} message to
+earlier messages that describe the object.}
 
-\item{...}{named args are columns of lavaanify output, and their values are used to subset that output.}
+\item{...}{named args are columns of lavaanify output, and their values are
+used to subset that output.}
 }
 \description{
-\code{check_lavaan_uses} inspects the model data frame produced by \code{\link{check_lavaan_df}} according to the arguments you specify.
-If it cannot find any rows in the data frame that match all of the arguments and corresponding values, the function will fail.
+\code{check_lavaan_uses} inspects the model data frame produced by
+\code{\link{check_lavaan_df}} according to the arguments you specify. If it
+cannot find any rows in the data frame that match all of the arguments and
+corresponding values, the function will fail.
 }
 \details{
-To see which arguments you can pass to the ellipsis argument, use \code{lavaan::lavaanify} on a lavaan model. Examples of arguments are \code{lhs}, \code{op}, and \code{rhs}, among others.
+To see which arguments you can pass to the ellipsis argument, use
+\code{lavaan::lavaanify} on a lavaan model. Examples of arguments are
+\code{lhs}, \code{op}, and \code{rhs}, among others.
 }
 \examples{
 \dontrun{
