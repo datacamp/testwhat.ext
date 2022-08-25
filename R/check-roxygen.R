@@ -144,6 +144,7 @@ check_roxy_element_matches <- function(state, element, regex, fixed = FALSE, tim
 }
 
 #' @rdname check_has_roxy
+#' @importFrom purrr map_chr
 #' @importFrom testwhat check_that is_false
 #' @export
 check_has_roxy_param <- function(state, param_name, index = 1L, missing_msg = NULL, append = TRUE) {
@@ -157,7 +158,8 @@ check_has_roxy_param <- function(state, param_name, index = 1L, missing_msg = NU
       param_name, index
     )
   }
-  actual <- param_name %in% sapply(roxygen2::block_get_tags(student_pd[[index]], "param"), function(x) x$val$name)
+  student_param_tags <- roxygen2::block_get_tags(student_pd[[index]], "param")
+  actual <- param_name %in% map_chr(student_param_tags, ~ .x[["val"]][["name"]])
   check_that(actual, feedback = missing_msg)
   return(invisible(state))
 }
@@ -176,14 +178,16 @@ check_roxy_param_matches <- function(state, param_name, regex, fixed = FALSE, in
       param_name, index, regex
     )
   }
-  param_idx <- which(sapply(roxygen2::block_get_tags(student_pd[[index]], "param"), function(x) x$val$name) == param_name)
-  actual <- sapply(roxygen2::block_get_tags(student_pd[[index]], "param"), function(x) x$val$description)[param_idx]
+  student_param_tags <- roxygen2::block_get_tags(student_pd[[index]], "param")
+  param_idx <- which(map_chr(student_param_tags, ~ .x[["val"]][["name"]]) == param_name)
+  actual <- map_chr(student_param_tags, ~ .x[["val"]][["description"]])[param_idx]
   num_hits <- get_num_hits(regex = regex, x = actual, fixed = fixed)
   check_that(is_gte(num_hits, 1L), feedback = not_typed_msg)
   return(invisible(state))
 }
 
 #' @rdname check_has_roxy
+#' @importFrom purrr map_chr
 #' @importFrom testwhat check_that is_true
 #' @export
 check_roxy_imports_package <- function(state, pkg_name, index = 1L, missing_msg = NULL, append = TRUE) {
@@ -197,9 +201,10 @@ check_roxy_imports_package <- function(state, pkg_name, index = 1L, missing_msg 
       index, pkg_name
     )
   }
-
-  pkgs_imported <- sapply(roxygen2::block_get_tags(student_pd[[1]], "import"), function(x) x$val)
+  student_import_tags <- roxygen2::block_get_tags(student_pd[[1]], "import")
+  pkgs_imported <- map_chr(student_import_tags, ~ .x[["val"]])
   check_that(is_true(pkg_name %in% pkgs_imported), feedback = missing_msg)
+  return(invisible(state))
 }
 
 #' @rdname check_has_roxy
@@ -217,11 +222,15 @@ check_roxy_imports_from_package <- function(state, pkg_name, index = 1L, missing
       index, pkg_name
     )
   }
-  pkgs_to_import_from <- sapply(lapply(roxygen2::block_get_tags(student_pd[[index]], "importFrom"), function(x) x$val), `[[`, 1)
+  student_importFrom_tags <- roxygen2::block_get_tags(student_pd[[index]], "importFrom")
+  pkgs_to_import_from <- unique(purrr::map_chr(student_importFrom_tags, purrr::pluck, "val", 1))
   check_that(is_true(pkg_name %in% pkgs_to_import_from), feedback = missing_msg)
+  return(invisible(state))
 }
 
 #' @rdname check_has_roxy
+#' @importFrom purrr map_chr
+#' @importFrom purrr map
 #' @importFrom testwhat check_that
 #' @importFrom testwhat is_true
 #' @export
@@ -236,10 +245,12 @@ check_roxy_imports_object_from_package <- function(state, pkg_name, object_name,
       index, object_name, pkg_name
     )
   }
-  import_from <- lapply(roxygen2::block_get_tags(student_pd[[index]], "importFrom"), function(x) x$val)
-  pkg_idx <- which(sapply(import_from, `[[`, 1) == pkg_name)
-  imported_objects <- unlist(lapply(import_from[pkg_idx], `[`, -1))
+  student_importFrom_tags <- roxygen2::block_get_tags(student_pd[[index]], "importFrom")
+  pkgs_to_import_from <- map_chr(student_importFrom_tags, ~ .x[["val"]][[1]])
+  this_pkg <- pkgs_to_import_from == pkg_name
+  imported_objects <- unlist(map(student_importFrom_tags[this_pkg],  ~ .x[["val"]][-1]))
   check_that(is_true(object_name %in% imported_objects), feedback = missing_msg)
+  return(invisible(state))
 }
 
 #' @rdname check_has_roxy
@@ -259,7 +270,8 @@ check_roxy_examples_run <- function(state, index = 1L, not_runnable_msg = NULL, 
       index
     )
   }
-  actual <- sapply(roxygen2::block_get_tags(student_pd[[index]], "examples"), function(x) x$val)
+  student_examples_tags <- roxygen2::block_get_tags(student_pd[[index]], "examples")
+  actual <- map_chr(student_examples_tags, ~ .x[["val"]])
   is_runnable <- tryCatch({
       eval_parse(pre_ex_code, student_env)
       eval_parse(actual, student_env)
@@ -272,7 +284,8 @@ check_roxy_examples_run <- function(state, index = 1L, not_runnable_msg = NULL, 
 }
 
 #' @rdname check_has_roxy
-#' @importFrom testwhat check_that is_gte
+#' @importFrom testwhat check_that
+#' @importFrom testwhat is_gte
 #' @export
 check_roxy_examples_result_equals <- function(state, index = 1L, incorrect_msg = NULL, append = TRUE) {
   check_roxy_examples_run(state, index)
@@ -292,10 +305,12 @@ check_roxy_examples_result_equals <- function(state, index = 1L, incorrect_msg =
 
   set.seed(19790801)
   eval_parse(pre_ex_code, student_env)
-  actual <- eval_parse(sapply(roxygen2::block_get_tags(student_pd[[index]], "examples"), function(x) x$val), student_env)
+  student_examples_tags <- roxygen2::block_get_tags(student_pd[[index]], "examples")
+  solution_examples_tags <- roxygen2::block_get_tags(solution_pd[[index]], "examples")
+  actual <- eval_parse(map_chr(student_examples_tags, ~ .x[["val"]]), student_env)
   set.seed(19790801)
   eval_parse(pre_ex_code, solution_env)
-  expected <- eval_parse(sapply(roxygen2::block_get_tags(solution_pd[[index]], "examples"), function(x) x$val), solution_env)
+  expected <- eval_parse(map_chr(solution_examples_tags, ~ .x[["val"]]), solution_env)
 
   check_that(is_equal(actual, expected), feedback = incorrect_msg)
   return(invisible(state))
@@ -315,7 +330,8 @@ check_roxy_example_matches <- function(state, regex, fixed = FALSE, index = 1L, 
       index, regex
     )
   }
-  actual <- sapply(roxygen2::block_get_tags(student_pd[[index]], "examples"), function(x) x$val)
+  student_examples_tags <- roxygen2::block_get_tags(student_pd[[index]], "examples")
+  actual <- map_chr(student_examples_tags, ~ .x[["val"]])
   num_hits <- get_num_hits(regex = regex, x = actual, fixed = fixed)
   check_that(is_gte(num_hits, 1L), feedback = not_typed_msg)
   return(invisible(state))
