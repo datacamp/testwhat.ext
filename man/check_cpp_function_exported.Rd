@@ -4,8 +4,7 @@
 \alias{check_cpp_function_exported}
 \title{Check whether CPP function was properly exported}
 \usage{
-check_cpp_function_exported(state, return_type, name,
-  not_exported_msg = NULL)
+check_cpp_function_exported(state, return_type, name, not_exported_msg = NULL)
 }
 \arguments{
 \item{state}{A child state that focuses on the cpp portion of an exercise

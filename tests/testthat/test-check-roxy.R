@@ -152,9 +152,11 @@ test_that(
   "test check_has_roxy_element() passes on package documentation", {
     # Solution code not considered
     state <- setup_state(stu_code = PACKAGE_DOCS)
-    state %>%
-      parse_roxy() %>%
-      check_has_roxy_element('docType')
+    expect_pass(
+      state %>%
+        parse_roxy() %>%
+        check_has_roxy_element('docType')
+    )
   }
 )
 
@@ -353,9 +355,11 @@ test_that(
   "test check_roxy_imports_package() passes on a function with that roxygen import", {
     # Solution code not considered
     state <- setup_state(stu_code = FN_WITH_IMPORTS)
-    state %>%
-      parse_roxy() %>%
-      check_roxy_imports_package('colorspace')
+    expect_pass(
+      state %>%
+        parse_roxy() %>%
+        check_roxy_imports_package('colorspace')
+    )
   }
 )
 
@@ -380,9 +384,11 @@ test_that(
   "test check_roxy_imports_from_package() passes on a function with that roxygen importFrom", {
     # Solution code not considered
     state <- setup_state(stu_code = FN_WITH_IMPORTS)
-    state %>%
-      parse_roxy() %>%
-      check_roxy_imports_from_package('lattice')
+    expect_pass(
+      state %>%
+        parse_roxy() %>%
+        check_roxy_imports_from_package('lattice')
+    )
   }
 )
 
@@ -407,13 +413,24 @@ test_that(
   "test check_roxy_imports_object_from_package() passes on a function with that objected imported from the package", {
     # Solution code not considered
     state <- setup_state(stu_code = FN_WITH_IMPORTS)
-    state %>%
-      parse_roxy() %>% {
+    parsed <- state %>%
+      parse_roxy()
+    expect_pass(
+      parsed %>%
         check_roxy_imports_object_from_package(., 'grDevices', 'hcl')
+    )
+    expect_pass(
+      parsed %>%
         check_roxy_imports_object_from_package(., 'lattice', 'dotplot')
+    )
+    expect_pass(
+      parsed %>%
         check_roxy_imports_object_from_package(., 'lattice', 'panel.fill')
+    )
+    expect_pass(
+      parsed %>%
         check_roxy_imports_object_from_package(., 'lattice', 'panel.dotplot')
-      }
+    )
   }
 )
 
@@ -468,19 +485,6 @@ test_that(
     )
   }
 )
-
-# test_that(
-#   "test check_roxy_examples_run() passes on a function with roxygen examples that only run when pre-exercise code is run", {
-#     # Solution code not considered
-#     state <- setup_state(
-#       pec = ".libPaths(Sys.getenv('R_LIBS_USER')); library('colorspace'); library('lattice')",
-#       stu_code = FN_WITH_IMPORTS
-#     )
-#     state %>%
-#       parse_roxy() %>%
-#       check_roxy_examples_run()
-#   }
-# )
 
 # check_roxy_examples_result_equals ---------------------------------------
 

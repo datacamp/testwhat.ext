@@ -17,38 +17,98 @@
 \usage{
 check_has_roxy(state, index = 1L, missing_msg = NULL, append = TRUE)
 
-check_has_roxy_element(state, element, index = 1L, missing_msg = NULL,
-  append = TRUE)
+check_has_roxy_element(
+  state,
+  element,
+  index = 1L,
+  missing_msg = NULL,
+  append = TRUE
+)
 
-check_roxy_element_equals(state, element, index = 1L,
-  incorrect_msg = NULL, append = TRUE)
+check_roxy_element_equals(
+  state,
+  element,
+  index = 1L,
+  incorrect_msg = NULL,
+  append = TRUE
+)
 
-check_roxy_element_matches(state, element, regex, fixed = FALSE,
-  times = 1L, index = 1L, not_typed_msg = NULL, append = TRUE)
+check_roxy_element_matches(
+  state,
+  element,
+  regex,
+  fixed = FALSE,
+  times = 1L,
+  index = 1L,
+  not_typed_msg = NULL,
+  append = TRUE
+)
 
-check_has_roxy_param(state, param_name, index = 1L, missing_msg = NULL,
-  append = TRUE)
+check_has_roxy_param(
+  state,
+  param_name,
+  index = 1L,
+  missing_msg = NULL,
+  append = TRUE
+)
 
-check_roxy_param_matches(state, param_name, regex, fixed = FALSE,
-  index = 1L, not_typed_msg = NULL, append = TRUE)
+check_roxy_param_matches(
+  state,
+  param_name,
+  regex,
+  fixed = FALSE,
+  index = 1L,
+  not_typed_msg = NULL,
+  append = TRUE
+)
 
-check_roxy_imports_package(state, pkg_name, index = 1L, missing_msg = NULL,
-  append = TRUE)
+check_roxy_imports_package(
+  state,
+  pkg_name,
+  index = 1L,
+  missing_msg = NULL,
+  append = TRUE
+)
 
-check_roxy_imports_from_package(state, pkg_name, index = 1L,
-  missing_msg = NULL, append = TRUE)
+check_roxy_imports_from_package(
+  state,
+  pkg_name,
+  index = 1L,
+  missing_msg = NULL,
+  append = TRUE
+)
 
-check_roxy_imports_object_from_package(state, pkg_name, object_name,
-  index = 1L, missing_msg = NULL, append = TRUE)
+check_roxy_imports_object_from_package(
+  state,
+  pkg_name,
+  object_name,
+  index = 1L,
+  missing_msg = NULL,
+  append = TRUE
+)
 
-check_roxy_examples_run(state, index = 1L, not_runnable_msg = NULL,
-  append = TRUE)
+check_roxy_examples_run(
+  state,
+  index = 1L,
+  not_runnable_msg = NULL,
+  append = TRUE
+)
 
-check_roxy_examples_result_equals(state, index = 1L,
-  incorrect_msg = NULL, append = TRUE)
+check_roxy_examples_result_equals(
+  state,
+  index = 1L,
+  incorrect_msg = NULL,
+  append = TRUE
+)
 
-check_roxy_example_matches(state, regex, fixed = FALSE, index = 1L,
-  not_typed_msg = NULL, append = TRUE)
+check_roxy_example_matches(
+  state,
+  regex,
+  fixed = FALSE,
+  index = 1L,
+  not_typed_msg = NULL,
+  append = TRUE
+)
 }
 \arguments{
 \item{state}{The state of the exercise, as returned from \code{\link{parse_roxy}}.}
